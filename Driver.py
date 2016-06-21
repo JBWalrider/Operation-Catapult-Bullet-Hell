@@ -1,41 +1,31 @@
 import pygame
 from pygame.locals import *
-import bullethellobjectclasses
-from bullethellobjectclasses import *
+from Ship import *
+from Bullet import *
+from ScrollScreen import *
+
+SCREEN_WIDTH = 500
+SCREEN_HEIGHT = 800
+SCREEN_SIZE = (SCREEN_WIDTH, SCREEN_HEIGHT)
 
 def main():    
-
-    global player, laser
+    
+    drawBullet = False
 
     pygame.init()
 
-    screen = pygame.display.set_mode((500, 800))
+    screen = pygame.display.set_mode(SCREEN_SIZE)
 
-    pygame.display.set_caption('Space Quest')
+    pygame.display.set_caption("Bullet Hell")
 
     pygame.mouse.set_visible(0)
 
-    background = pygame.Surface(screen.get_size())
- 
-    background = background.convert()
-
-    background.fill((000, 000, 000))
-
-    screen.blit(background, (0, 0))
-
-    pygame.display.flip()
-
-    scroll = scrollScreen()
-    global player
-    ship = Ship()
+    scroll = ScrollScreen()
+    ship = Ship(SCREEN_SIZE)
 
     spaceGroup = pygame.sprite.RenderPlain((scroll))
-    global shipGroup
     shipGroup = pygame.sprite.RenderPlain((ship))
-    global bulletGroup
     bulletGroup = pygame.sprite.RenderPlain(())  
-
-    
 
     while True:
 
@@ -45,14 +35,18 @@ def main():
 
         shipGroup.update()
         bulletGroup.update()
+        spaceGroup.update()
+        pygame.display.update()
         
-        screen.blit(background, (0, 0))
+        if ship.drawBullet == True:
+            bulletGroup.add(Bullet(screen, ship.rect.midtop))
+
+        screen.fill((0, 0, 0))
+        
         
         spaceGroup.draw(screen)
         shipGroup.draw(screen)
         bulletGroup.draw(screen)
-
-        pygame.display.flip()
 
     pygame.quit()
 
