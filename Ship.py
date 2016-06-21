@@ -3,6 +3,7 @@ from pygame.locals import *
 
 class Ship(pygame.sprite.Sprite):
     drawBullet = False
+    bulletDelayCounter = 0
 
     def __init__ (self, screenSize):
         super().__init__()
@@ -14,22 +15,28 @@ class Ship(pygame.sprite.Sprite):
         self.screenHeight = screenSize[1]
         self.offset = 5
 
-    def update(self):
+   
+    def update(self):        
         key = pygame.key.get_pressed()
         
         if key[K_w]:
-            self.rect.centery += -3
+            self.rect.centery += -1
         if key[K_s]:
-            self.rect.centery += 3
+            self.rect.centery += 1
         if key[K_d]:
-            self.rect.centerx += 3
+            self.rect.centerx += 1
         if key[K_a]:
-            self.rect.centerx += -3
+            self.rect.centerx += -1
         if key[K_SPACE]:
-            self.drawBullet = True
+            if self.drawBullet:
+                self.drawBullet = False
+            if self.bulletDelayCounter >= 100:
+                self.bulletDelayCounter = 0
+                self.drawBullet = True
         else:
             self.drawBullet = False
     
+        self.bulletDelayCounter += 1
         if self.rect.centerx > self.screenWidth-self.offset:
             self.rect.centerx = self.screenWidth-self.offset
         if self.rect.centerx < self.offset:
