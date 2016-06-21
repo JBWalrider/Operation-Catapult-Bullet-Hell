@@ -1,17 +1,18 @@
 import pygame
 from pygame.locals import *
 
-class scrollScreen(pygame.sprite.Sprite):
+class ScrollScreen(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load("egg.gif")
+        self.rect = self.image.get_rect()
         self.dx = -5
-        self.image.get_rect().bottom = 800
+        self.rect.bottom = 800
         
     def update(self):
         self.rect().bottom += self.dx
-        if self.image.get_rect().bottom >= 1600:
-            self.image.get_rect().bottom = 800
+        if self.rect.bottom >= 1600:
+            self.rect.bottom = 800
 
 class Ship(pygame.sprite.Sprite):
 
@@ -19,53 +20,106 @@ class Ship(pygame.sprite.Sprite):
         global hasBullet
         super().__init__()
         self.image = pygame.image.load("egg.gif")
-        #surf.blit(self.image, [0, 0])
-        self.image.get_rect().centerx = 250
-        self.image.get_rect().centery = 400
+        self.rect = self.image.get_rect()
+        self.rect.centerx = 250
+        self.rect.centery = 400
         hasBullet = False
 
     def update(self):
-        global hasBullet
+        global hasBullet, drawBullet
 
         key = pygame.key.get_pressed()
         
         if key[K_w]:
-            self.image.get_rect().centery += -3
+            self.rect.centery += -3
         if key[K_s]:
-            self.image.get_rect().centery += 3
+            self.rect.centery += 3
         if key[K_d]:
-            self.image.get_rect().centerx += 3
+            self.rect.centerx += 3
         if key[K_a]:
-            self.image.get_rect().centerx += -3
+            self.rect.centerx += -3
         if key[K_SPACE]:
-            bulletGroup.add(Bullet(self.image.get_rect().midtop))
+            drawBullet = True
+        else:
+            drawBullet = False
     
-        if self.image.get_rect().centerx > 500-5:
-            self.image.get_rect().centerx = 500-5
-        if self.image.get_rect().centerx < 5:
-            self.image.get_rect().centerx = 5
-        if self.image.get_rect().centery > 500-5:
-            self.image.get_rect().centery = 500-5
-        if self.image.get_rect().centery < 5:
-            self.image.get_rect().centery = 5
+        if self.rect.centerx > 500-5:
+            self.rect.centerx = 500-5
+        if self.rect.centerx < 5:
+            self.rect.centerx = 5
+        if self.rect.centery > 500-5:
+            self.rect.centery = 500-5
+        if self.rect.centery < 5:
+            self.rect.centery = 5
 
     def draw(self, surf):
-        pygame.draw.rect(surf, [255, 000, 000], self.image.get_rect(), 0)
+        pygame.draw.rect(surf, [255, 000, 000], self.rect, 0)
 
 class Bullet(pygame.sprite.Sprite):
 
     def __init__ (self, surf, pos):
         super().__init__()
         self.image = pygame.image.load("egg.gif")
-        self.image.get_rect().center = pos
-        #surf.blit(self.image, [x, y])
+        self.rect = self.image.get_rect()
+        self.rect.center = pos
         
-    def update(self, surf):
-        if self.image.get_rect().right > 600:
+    def update(self):
+        if self.rect.top < 0:
             self.kill()
         else:
-            self.image.get_rect().move_ip(15, 0)
-            self.draw(surf)
+            self.rect.move_ip(0, -15)
 
     def draw(self, surf):
-        pygame.draw.rect(surf, [000, 255, 000], self.image.get_rect(), 0)
+        pygame.draw.rect(surf, [000, 255, 000], self.rect, 0)
+
+def main():    
+
+    global ship, bullet, drawBullet
+    
+    drawBullet = False
+
+    pygame.init()
+
+    screen = pygame.display.set_mode((500, 800))
+
+    pygame.display.set_caption("Bullet Hell")
+
+    pygame.mouse.set_visible(0)
+
+    scroll = ScrollScreen()
+    global ship
+    ship = Ship()
+
+    spaceGroup = pygame.sprite.RenderPlain((scroll))
+    global shipGroup
+    shipGroup = pygame.sprite.RenderPlain((ship))
+    global bulletGroup
+    bulletGroup = pygame.sprite.RenderPlain(())  
+
+    pygame.key.set_repeat(1000000)
+
+    while True:
+
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                return
+
+        shipGroup.update()
+        bulletGroup.update()
+        pygame.display.update()
+        
+        if drawBullet == True:
+            bulletGroup.add(Bullet(screen, ship.rect.midtop))
+
+        screen.fill((0, 0, 0))
+        
+        
+        spaceGroup.draw(screen)
+        shipGroup.draw(screen)
+        bulletGroup.draw(screen)
+
+    pygame.quit()
+
+if __name__ == '__main__':
+
+    main()
