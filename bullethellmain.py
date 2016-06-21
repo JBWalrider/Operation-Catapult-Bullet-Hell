@@ -43,11 +43,18 @@ def main():
             if event.type == QUIT:
                 return
 
-        shipr.update()
+        shipGroup.update()
+        bulletGroup.update()
         
         screen.blit(background, (0, 0))
         
-        ship.draw(screen)
+        spaceGroup.draw(screen)
+        shipGroup.draw(screen)
+        bulletGroup.draw(screen)
+
+        pygame.display.flip()
+
+    pygame.quit()
 
 if __name__ == '__main__':
 
