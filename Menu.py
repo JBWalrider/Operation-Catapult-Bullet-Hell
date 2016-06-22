@@ -1,4 +1,5 @@
 import pygame
+from pygame.locals import *
 
 SCREEN_WIDTH = 500
 SCREEN_HEIGHT = 800
@@ -36,15 +37,21 @@ class Option:
 
 pygame.init()
 menu_font = pygame.font.Font(None, 40)
-options = [Option("NEW GAME", (180, 400))]
-while True:
-    pygame.event.pump()
-    screen.fill((0, 0, 0))
-    for option in options:
-        if option.rect.collidepoint(pygame.mouse.get_pos()):
-            option.hovered = True
+options = [Option("START", (180, 400))]
 
-        else:
-            option.hovered = False
-        option.draw()
-    pygame.display.update()
+def start():
+    while True:
+        pygame.event.pump()
+        screen.fill((0, 0, 0))
+        for option in options:
+            if option.rect.collidepoint(pygame.mouse.get_pos()):
+                option.hovered = True
+                
+            else:
+                option.hovered = False
+            option.draw()
+        pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                return
+start()
