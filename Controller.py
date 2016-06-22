@@ -43,8 +43,10 @@ class Controller:
         self.shipGroup = pygame.sprite.RenderPlain((self.ship))
         self.bulletGroup = pygame.sprite.RenderPlain(()) 
 
-        pygame.time.set_timer(pygame.USEREVENT+1, 50)
-        pygame.time.set_timer(pygame.USEREVENT+2, 500)
+        pygame.time.set_timer(pygame.USEREVENT+1, 50)       #Timer for bullet
+        pygame.time.set_timer(pygame.USEREVENT+2, 250)      #Timer for background
+        pygame.time.set_timer(pygame.USEREVENT+3, 250)      #Timer for shooting
+        pygame.time.set_timer(pygame.USEREVENT+4, 10)      #Timer for moving
 
         while True:
 
@@ -55,15 +57,16 @@ class Controller:
                     self.bulletGroup.update()
                 if event.type == USEREVENT+2:
                     self.spaceGroup.update()
-                
+                if event.type == USEREVENT+3:
+                    self.ship.canShoot = True
+                if event.type == USEREVENT+4:
+                    self.shipGroup.update()
 
-            self.shipGroup.update()
-            
-            
             pygame.display.update()
             
-            if self.ship.drawBullet == True:
+            if self.ship.drawBullet:
                 self.bulletGroup.add(Bullet(self.screen, self.ship.rect.midtop))
+                self.ship.drawBullet = False
 
             self.repaint()
 
