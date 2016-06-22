@@ -38,9 +38,12 @@ class Controller:
         self.shipGroup.draw(self.screen)
         self.bulletGroup.draw(self.screen)
 
+    def shoot(self, b):
+        self.bulletGroup.add(b)
+
     def start(self):        
-        self.scroll = ScrollScreen()
-        self.ship = Ship(self.SCREEN_SIZE)
+        self.scroll = ScrollScreen(self.SCREEN_HEIGHT)
+        self.ship = Ship(self.SCREEN_SIZE, self)
 
         self.spaceGroup = pygame.sprite.RenderPlain((self.scroll))
         self.shipGroup = pygame.sprite.RenderPlain((self.ship))
@@ -66,10 +69,6 @@ class Controller:
                     self.shipGroup.update()
 
             pygame.display.update()
-            
-            if self.ship.drawBullet:
-                self.bulletGroup.add(Bullet(self.screen, self.ship.rect.midtop))
-                self.ship.drawBullet = False
 
             self.repaint()
 

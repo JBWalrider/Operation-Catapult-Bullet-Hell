@@ -1,20 +1,21 @@
 import pygame
 from pygame.locals import *
+from Bullet import *
 
 class Ship(pygame.sprite.Sprite):
     canShoot = False
     drawBullet = False
 
-    def __init__ (self, screenSize):
+    def __init__ (self, screenSize, controller):
         super().__init__()
         self.image = pygame.image.load("images\\Spaceship.png")
         self.rect = self.image.get_rect()
-        self.rect.centerx = 250
-        self.rect.centery = 400
         self.screenWidth = screenSize[0]
         self.screenHeight = screenSize[1]
+        self.rect.centerx = self.screenWidth / 2
+        self.rect.centery = self.screenHeight / 2
         self.offset = self.rect.width/2
-
+        self.controller = controller
    
     def update(self):        
         key = pygame.key.get_pressed()
@@ -29,7 +30,8 @@ class Ship(pygame.sprite.Sprite):
             self.rect.centerx += -2
         if key[K_SPACE]:
             if self.canShoot:
-                self.drawBullet = True
+                b = Bullet(self.controller.screen, self.rect.midtop)
+                self.controller.shoot(b)
                 self.canShoot = False
     
         if self.rect.centerx > self.screenWidth-self.offset:
