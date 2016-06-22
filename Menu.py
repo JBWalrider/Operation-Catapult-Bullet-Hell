@@ -39,12 +39,16 @@ class Option:
 
 pygame.init()
 menu_font = pygame.font.Font(None, 40)
-options = [Option("START", (180, 400))]
+options = [Option("START", (200, 600))]
 
 def menustart():
+    #while cursorstate == True:
+        #pygame.mouse.set_visible(1)
+    #while cursorstate == False:
+        #pygame.mouse.set_visible(0)
     while True:
         pygame.event.pump()
-        screen.fill((0, 0, 0))
+        pygame.mouse.set_visible(1)
         for option in options:
             if option.rect.collidepoint(pygame.mouse.get_pos()):
                 option.hovered = True
@@ -57,5 +61,11 @@ def menustart():
                 return
             if options[0].hovered == True:
                 if event.type == MOUSEBUTTONDOWN:
+                    pygame.mouse.set_visible(0)
                     c.start()
+                    return
+
+TitleScreen = pygame.image.load("images\\Title.png")
+screen.blit(TitleScreen, (0,0))
+
 menustart()

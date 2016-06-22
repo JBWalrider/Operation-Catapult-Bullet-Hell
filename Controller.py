@@ -26,9 +26,9 @@ class Controller:
         self.screen = pygame.display.set_mode(self.SCREEN_SIZE)
         
         pygame.display.set_caption("Bullet Hell")
-        pygame.mouse.set_visible(0)
+        
         pygame.init()
-
+        pygame.mouse.set_visible(0)
         #music = pygame.mixer.music.load("sound4.mp3")
         #pygame.mixer.music.play()
 
