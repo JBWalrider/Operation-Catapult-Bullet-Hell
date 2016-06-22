@@ -1,42 +1,39 @@
 import pygame
 from pygame.locals import *
+from Bullet import *
 
 class Ship(pygame.sprite.Sprite):
+    canShoot = False
     drawBullet = False
-    bulletDelayCounter = 0
 
-    def __init__ (self, screenSize):
+    def __init__ (self, screenSize, controller):
         super().__init__()
         self.image = pygame.image.load("images\\Spaceship.png")
         self.rect = self.image.get_rect()
-        self.rect.centerx = 250
-        self.rect.centery = 400
         self.screenWidth = screenSize[0]
         self.screenHeight = screenSize[1]
-        self.offset = 5
-
+        self.rect.centerx = self.screenWidth / 2
+        self.rect.centery = self.screenHeight / 2
+        self.offset = self.rect.width/2
+        self.controller = controller
    
     def update(self):        
         key = pygame.key.get_pressed()
         
         if key[K_w]:
-            self.rect.centery += -1
+            self.rect.centery += -2
         if key[K_s]:
-            self.rect.centery += 1
+            self.rect.centery += 2
         if key[K_d]:
-            self.rect.centerx += 1
+            self.rect.centerx += 2
         if key[K_a]:
-            self.rect.centerx += -1
+            self.rect.centerx += -2
         if key[K_SPACE]:
-            if self.drawBullet:
-                self.drawBullet = False
-            if self.bulletDelayCounter >= 100:
-                self.bulletDelayCounter = 0
-                self.drawBullet = True
-        else:
-            self.drawBullet = False
+            if self.canShoot:
+                b = Bullet(self.controller.screen, self.rect.midtop)
+                self.controller.shoot(b)
+                self.canShoot = False
     
-        self.bulletDelayCounter += 1
         if self.rect.centerx > self.screenWidth-self.offset:
             self.rect.centerx = self.screenWidth-self.offset
         if self.rect.centerx < self.offset:
