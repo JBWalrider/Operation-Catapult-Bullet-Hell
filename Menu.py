@@ -2,12 +2,7 @@ import pygame
 from pygame.locals import *
 from Controller import *
 
-c = Controller(500, 800)
-SCREEN_WIDTH = 500
-SCREEN_HEIGHT = 800
-SCREEN_SIZE = (SCREEN_WIDTH, SCREEN_HEIGHT)
-screen = pygame.display.set_mode(SCREEN_SIZE)
-pygame.display.set_caption("Bullet Hell")
+c = Controller(500, 700)
 
 class Option:
 
@@ -21,7 +16,7 @@ class Option:
             
     def draw(self):
         self.set_rend()
-        screen.blit(self.rend, self.rect)
+        c.screen.blit(self.rend, self.rect)
         
     def set_rend(self):
         self.rend = menu_font.render(self.text, True, self.get_color())
@@ -62,6 +57,7 @@ def menustart():
                     return
 
 TitleScreen = pygame.image.load("images\\Title.png")
-screen.blit(TitleScreen, (0,0))
+TitleScreen.convert()
+c.screen.blit(TitleScreen, (0,0))
 
 menustart()
