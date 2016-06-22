@@ -43,6 +43,7 @@ while True:
     for option in options:
         if option.rect.collidepoint(pygame.mouse.get_pos()):
             option.hovered = True
+
         else:
             option.hovered = False
         option.draw()

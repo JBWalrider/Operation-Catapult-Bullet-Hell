@@ -3,6 +3,8 @@ from pygame.locals import *
 
 class Bullet(pygame.sprite.Sprite):
 
+    moveCounterDelay = 0
+
     def __init__ (self, surf, pos):
         super().__init__()
         self.image = pygame.image.load("images\\Bullet.png")
@@ -13,7 +15,10 @@ class Bullet(pygame.sprite.Sprite):
         if self.rect.top < 0:
             self.kill()
         else:
-            self.rect.move_ip(0, -15)
+            if self.moveCounterDelay >= 100:
+                self.moveCounterDelay = 0
+                self.rect.move_ip(0, -15)
+        self.moveCounterDelay += 1
 
     def draw(self, surf):
         pygame.draw.rect(surf, [000, 255, 000], self.rect, 0)
