@@ -30,7 +30,7 @@ class Ship(pygame.sprite.Sprite):
         if key[K_SPACE]:
             if self.drawBullet:
                 self.drawBullet = False
-            if self.bulletDelayCounter >= 100:
+            if self.bulletDelayCounter >= 200:
                 self.bulletDelayCounter = 0
                 self.drawBullet = True
         else:
