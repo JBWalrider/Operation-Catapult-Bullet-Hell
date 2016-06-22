@@ -13,7 +13,7 @@ class Bullet(pygame.sprite.Sprite):
         self.speed = -15
         
     def update(self):
-        if self.rect.top < 0:
+        if self.rect.top < 0 - self.rect.height:
             self.kill()
         else:
             self.rect.move_ip(0, self.speed)

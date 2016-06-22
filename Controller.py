@@ -29,6 +29,9 @@ class Controller:
         pygame.mouse.set_visible(0)
         pygame.init()
 
+        #music = pygame.mixer.music.load("sound4.mp3")
+        #pygame.mixer.music.play()
+
     def repaint(self):
         self.screen.fill((0, 0, 0))
         self.spaceGroup.draw(self.screen)
@@ -44,9 +47,9 @@ class Controller:
         self.bulletGroup = pygame.sprite.RenderPlain(()) 
 
         pygame.time.set_timer(pygame.USEREVENT+1, 50)       #Timer for bullet
-        pygame.time.set_timer(pygame.USEREVENT+2, 250)      #Timer for background
+        pygame.time.set_timer(pygame.USEREVENT+2, 100)      #Timer for background
         pygame.time.set_timer(pygame.USEREVENT+3, 250)      #Timer for shooting
-        pygame.time.set_timer(pygame.USEREVENT+4, 10)      #Timer for moving
+        pygame.time.set_timer(pygame.USEREVENT+4, 10)       #Timer for moving
 
         while True:
 

@@ -13,20 +13,20 @@ class Ship(pygame.sprite.Sprite):
         self.rect.centery = 400
         self.screenWidth = screenSize[0]
         self.screenHeight = screenSize[1]
-        self.offset = 5
+        self.offset = self.rect.width/2
 
    
     def update(self):        
         key = pygame.key.get_pressed()
         
         if key[K_w]:
-            self.rect.centery += -3
+            self.rect.centery += -2
         if key[K_s]:
-            self.rect.centery += 3
+            self.rect.centery += 2
         if key[K_d]:
-            self.rect.centerx += 3
+            self.rect.centerx += 2
         if key[K_a]:
-            self.rect.centerx += -3
+            self.rect.centerx += -2
         if key[K_SPACE]:
             if self.canShoot:
                 self.drawBullet = True
