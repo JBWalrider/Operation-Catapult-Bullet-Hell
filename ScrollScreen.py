@@ -12,5 +12,5 @@ class ScrollScreen(pygame.sprite.Sprite):
         
     def update(self):
         self.rect.y += self.dy
-        if self.rect.bottom >= 2*self.height:
+        if self.rect.bottom >= 3*self.height:
             self.rect.bottom = self.height
