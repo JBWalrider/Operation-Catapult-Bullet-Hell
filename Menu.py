@@ -42,10 +42,6 @@ menu_font = pygame.font.Font(None, 40)
 options = [Option("START", (200, 600))]
 
 def menustart():
-    #while cursorstate == True:
-        #pygame.mouse.set_visible(1)
-    #while cursorstate == False:
-        #pygame.mouse.set_visible(0)
     while True:
         pygame.event.pump()
         pygame.mouse.set_visible(1)
