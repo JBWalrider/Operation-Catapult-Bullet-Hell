@@ -1,6 +1,8 @@
 import pygame
 from pygame.locals import *
+from Controller import *
 
+c = Controller(500, 800)
 SCREEN_WIDTH = 500
 SCREEN_HEIGHT = 800
 SCREEN_SIZE = (SCREEN_WIDTH, SCREEN_HEIGHT)
@@ -39,14 +41,13 @@ pygame.init()
 menu_font = pygame.font.Font(None, 40)
 options = [Option("START", (180, 400))]
 
-def start():
+def menustart():
     while True:
         pygame.event.pump()
         screen.fill((0, 0, 0))
         for option in options:
             if option.rect.collidepoint(pygame.mouse.get_pos()):
                 option.hovered = True
-                
             else:
                 option.hovered = False
             option.draw()
@@ -54,4 +55,7 @@ def start():
         for event in pygame.event.get():
             if event.type == QUIT:
                 return
-start()
+            if options[0].hovered == True:
+                if event.type == MOUSEBUTTONDOWN:
+                    c.start()
+menustart()
