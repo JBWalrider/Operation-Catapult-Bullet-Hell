@@ -65,9 +65,10 @@ class Menu:
         self.options = [self.Option("START", (200, 540), menu_font, self.surface), self.Option("CREDITS", (182, 580), menu_font, self.surface)]
         self.TitleScreen = pygame.image.load("images/Title.png")
         self.TitleScreen.convert()
+        self.surface.blit(self.TitleScreen, (0, 0))
         
     def start(self):
         self.menustart()
-        self.surface.blit(self.TitleScreen, (0,0))
+        #self.surface.blit(self.TitleScreen, (0,0))
         
     
