@@ -1,4 +1,4 @@
 from Controller import *
 
-c = Controller(500, 600)
+c = Controller(500, 700)
 c.start()

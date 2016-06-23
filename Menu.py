@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import pygame
 from pygame.locals import *
 from Controller import *
@@ -63,3 +64,17 @@ TitleScreen.convert()
 c.screen.blit(TitleScreen, (0,0))
 
 menustart()
+=======
+from tkinter import *
+from tkinter import ttk
+
+window = Tk()
+window.title("Catabullet")
+window.geometry("500x800")
+window.wm_iconbitmap('images\\SpaceshipIcon.ico')
+
+startb = ttk.Button(window)
+startb.pack()
+
+window.mainloop() 
+>>>>>>> Timer

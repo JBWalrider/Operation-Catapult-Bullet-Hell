@@ -1,32 +1,35 @@
-import pygame
+import pygame, math
 from pygame.locals import *
-
-class Enemy_Bullet(pygame.sprite.Sprite):
-
-    speed = None
-    straightDown = 0
-    fourtyFiveDegrees_1 = 1
-    fourtyFiveDegrees_2 = 2
+from Bullet import *
 
 
-    def __init__ (self, surf, pos, type1):
-        super().__init__()
+class Enemy_Bullet(Bullet):
+
+    """
+        When angle is 0, the enemy is pointing straight down. Then it is -90 to 90 degrees
+    """
+    def __init__(self, pos, speed, angle):
+        super().__init__(pos)
         self.image = pygame.image.load("images\\Enemy_Bullet.png")
         self.rect = self.image.get_rect()
-        self.type = type1
         self.rect.center = pos
-        self.speed = 15
-        
+        self.speed = speed
+        self.angle = math.radians(angle)
+
+    def upOOB(self):
+        return self.rect.top < 0 - self.rect.height
+    def rightOOB(self):
+        return self.rect.right > 500 + self.rect.height
+    def leftOOB(self):
+        return self.rect.left < 0 - self.rect.height
+    def downOOB(self):
+        return self.rect.bottom > 800 + self.rect.height
+
     def update(self):
-        if self.rect.top < 0 - self.rect.height or self.rect.right > 500 + self.rect.height or self.rect.left < 0 - self.rect.height or self.rect.bottom > 800 + self.rect.height :
+        if self.upOOB() or self.rightOOB() or self.leftOOB() or self.downOOB():
             self.kill() 
         else:
-            if self.type == self.straightDown:
-                self.rect.move_ip(0, self.speed)
-            if self.type == self.fourtyFiveDegrees_1:
-                self.rect.move_ip(self.speed, self.speed)
-            if self.type == self.fourtyFiveDegrees_2:
-                self.rect.move_ip(-self.speed, self.speed)
+            self.rect.move_ip(math.copysign(math.sin(self.angle) * self.speed, self.angle), math.fabs(math.cos(self.angle) * self.speed))
 
     def draw(self, surf):
         pygame.draw.rect(surf, [000, 255, 000], self.rect, 0)
