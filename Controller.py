@@ -58,8 +58,8 @@ class Controller:
         pygame.time.set_timer(pygame.USEREVENT+2, 100)                  #Timer for background
         pygame.time.set_timer(pygame.USEREVENT+3, 250)                  #Timer for shooting
         pygame.time.set_timer(pygame.USEREVENT+4, 10)                   #Timer for moving
-        pygame.time.set_timer(pygame.USEREVENT+5, randint(400, 1000))    #Timer for Enemy Shooting
-        pygame.time.set_timer(pygame.USEREVENT+6, randint(500,1500))   #Timer for enemy spawn
+        pygame.time.set_timer(pygame.USEREVENT+5, 500)    #Timer for Enemy Shooting
+        pygame.time.set_timer(pygame.USEREVENT+6, 800)   #Timer for enemy spawn
 
         while True:
 
@@ -80,9 +80,9 @@ class Controller:
                     for i in range(len(enemyList)):
                         enemyList[i].shoot()
                 if event.type == USEREVENT+6:
-                    sType = randint(0, 2)
+                    sType = randint(0, 1)
                     #path = "images\\Enemy_" + (1+sType)
-                    path = "images\\Enemy_1.png"
+                    path = "images\\Enemy_" + str(sType) + ".png"
                     initX = randint(0, 500)
                     initDX = randint(-1, 1)
                     initDY = randint(1, 2)
