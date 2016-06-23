@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
 from Bullet import *
+from Enemy_Bullet import *
 
 class Ship(pygame.sprite.Sprite):
     canShoot = False
@@ -30,7 +31,7 @@ class Ship(pygame.sprite.Sprite):
             self.rect.centerx += -2
         if key[K_SPACE]:
             if self.canShoot:
-                b = Bullet(self.controller.screen, self.rect.midtop)
+                b = Bullet( self.rect.midtop)
                 self.controller.shoot(b)
                 self.canShoot = False
     
