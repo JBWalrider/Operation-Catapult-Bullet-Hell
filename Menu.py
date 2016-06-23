@@ -32,9 +32,12 @@ class Option:
         self.rect = self.rend.get_rect()
         self.rect.topleft = self.pos
 
+def credits():
+    pygame.font.quit()
+    
 pygame.init()
 menu_font = pygame.font.Font(None, 40)
-options = [Option("START", (200, 540)),Option("CREDITS", (182, 580))]
+options = [Option("START", (200, 540)),Option("CREDITS", (182, 580)),Option("EXIT", (210, 620))]
 
 def menustart():
     while True:
@@ -55,8 +58,15 @@ def menustart():
                     pygame.mouse.set_visible(0)
                     c.start()
                     return
-                
-                
+            if options[1].hovered == True:
+                if event.type == MOUSEBUTTONDOWN:
+                    pygame.mouse.set_visible(1)
+                    return
+            if options[2].hovered == True:
+                if event.type == MOUSEBUTTONDOWN:
+                    pygame.mouse.set_visible(0)
+                    return
+                 
 
 TitleScreen = pygame.image.load("images/Title.png")
 TitleScreen.convert()
