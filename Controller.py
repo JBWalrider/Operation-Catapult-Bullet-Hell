@@ -43,7 +43,7 @@ class Controller:
         self.bulletGroup.add(b)
 
     def start(self):
-        music = pygame.mixer.music.load("sounds/sound2.mp3")
+        music = pygame.mixer.music.load("sounds/gameMusic.mp3")
         pygame.mixer.music.play()
 
         self.scroll = ScrollScreen(self.SCREEN_HEIGHT)
