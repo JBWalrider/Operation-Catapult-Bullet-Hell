@@ -67,9 +67,15 @@ class Menu:
     def __init__(self, controller):
         pygame.init()
         menu_font = pygame.font.Font(None, 40)
+
         self.c = controller
         self.surface = controller.screen
-        self.options = [self.Option("START", (200, 540), menu_font, self.surface), self.Option("CREDITS", (182, 580), menu_font, self.surface), self.Option("EXIT", (210, 620), menu_font, self.surface)]
+
+        start = self.Option("START", (200, 540), menu_font, self.surface)
+        credits = self.Option("CREDITS", (182, 580), menu_font, self.surface)
+        exit = self.Option("EXIT", (210, 620), menu_font, self.surface)
+        
+        self.options = [start, credits, exit]
         self.TitleScreen = pygame.image.load("images/Title.png")
         self.TitleScreen.convert()
         self.surface.blit(self.TitleScreen, (0, 0))
