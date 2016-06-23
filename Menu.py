@@ -55,11 +55,11 @@ class Menu:
                         pygame.mouse.set_visible(0)
                         self.c.start()
                         return
-                if options[1].hovered == True:
+                if self.options[1].hovered == True:
                     if event.type == MOUSEBUTTONDOWN:
                         pygame.mouse.set_visible(1)
                         return
-                if options[2].hovered == True:
+                if self.options[2].hovered == True:
                     if event.type == MOUSEBUTTONDOWN:
                         pygame.mouse.set_visible(0)
                         return
@@ -69,7 +69,7 @@ class Menu:
         menu_font = pygame.font.Font(None, 40)
         self.c = controller
         self.surface = controller.screen
-        self.options = [self.Option("START", (200, 540), menu_font, self.surface), self.Option("CREDITS", (182, 580), menu_font, self.surface), Option("EXIT", (210, 620). menu_font, self.surface)]
+        self.options = [self.Option("START", (200, 540), menu_font, self.surface), self.Option("CREDITS", (182, 580), menu_font, self.surface), self.Option("EXIT", (210, 620), menu_font, self.surface)]
         self.TitleScreen = pygame.image.load("images/Title.png")
         self.TitleScreen.convert()
         self.surface.blit(self.TitleScreen, (0, 0))
