@@ -34,7 +34,7 @@ class Option:
 
 pygame.init()
 menu_font = pygame.font.Font(None, 40)
-options = [Option("START", (200, 600))]
+options = [Option("START", (200, 540)),Option("CREDITS", (182, 580))]
 
 def menustart():
     while True:
@@ -55,8 +55,10 @@ def menustart():
                     pygame.mouse.set_visible(0)
                     c.start()
                     return
+                
+                
 
-TitleScreen = pygame.image.load("images\\Title.png")
+TitleScreen = pygame.image.load("images/Title.png")
 TitleScreen.convert()
 c.screen.blit(TitleScreen, (0,0))
 
