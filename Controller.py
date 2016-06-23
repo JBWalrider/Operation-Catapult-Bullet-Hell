@@ -32,9 +32,6 @@ class Controller:
         pygame.mouse.set_visible(0)
         pygame.init()
 
-        #music = pygame.mixer.music.load("sound4.mp3")
-        #pygame.mixer.music.play()
-
     def repaint(self):
         self.screen.fill((0, 0, 0))
         self.spaceGroup.draw(self.screen)
@@ -45,7 +42,10 @@ class Controller:
     def shoot(self, b):
         self.bulletGroup.add(b)
 
-    def start(self):        
+    def start(self):
+        music = pygame.mixer.music.load("sounds/sound2.mp3")
+        pygame.mixer.music.play()
+
         self.scroll = ScrollScreen(self.SCREEN_HEIGHT)
         self.ship = Ship(self.SCREEN_SIZE, self)
 

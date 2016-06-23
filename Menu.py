@@ -16,7 +16,8 @@ class Menu:
             self.surface = surface
             self.set_rect()
             self.draw()
-            
+            music = pygame.mixer.music.load("sounds/menuMusic.mp3")
+            pygame.mixer.music.play()
                 
         def draw(self):
             self.set_rend()
@@ -53,6 +54,7 @@ class Menu:
                 if self.options[0].hovered == True:
                     if event.type == MOUSEBUTTONDOWN:
                         pygame.mouse.set_visible(0)
+                        pygame.mixer.music.stop()
                         self.c.start()
                         return
                 if self.options[1].hovered == True:
