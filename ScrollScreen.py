@@ -6,7 +6,7 @@ class ScrollScreen(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load("images/Background.png")
         self.rect = self.image.get_rect()
-        self.dy = 2
+        self.dy = 5
         self.rect.bottom = screen_height
         self.height = screen_height
         
