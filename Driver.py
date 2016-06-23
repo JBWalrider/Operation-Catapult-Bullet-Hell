@@ -1,4 +1,6 @@
+from Menu import *
 from Controller import *
 
 c = Controller(500, 700)
-c.start()
+menu = Menu(c)
+menu.start()
