@@ -37,7 +37,7 @@ class Menu:
             self.rect = self.rend.get_rect()
             self.rect.topleft = self.pos
 
-    def menustart(self):
+    def menuStart(self):
         while True:
             pygame.event.pump()
             pygame.mouse.set_visible(1)
@@ -56,12 +56,40 @@ class Menu:
                         pygame.mouse.set_visible(0)
                         pygame.mixer.music.stop()
                         self.c.start()
+                        pygame.quit()
                 if self.options[1].hovered == True:
                     if event.type == MOUSEBUTTONDOWN:
+                        
                         pygame.mouse.set_visible(1)
-                        self.Credits = pygame.image.load("images/Credits.png")
-                        self.Credits.convert()
-                        self.surface.blit(self.Credits, (0, 0))
+
+                        creditFont = pygame.font.Font(None, 40)
+                        back = self.Option("BACK", (200, 580), creditFont, self.surface)
+        
+                        self.creditOptions = [back]
+                        self.CreditsScreen = pygame.image.load("images/Credits.png")
+                        self.CreditsScreen.convert()
+                        self.surface.blit(self.CreditsScreen, (0, 0))
+                        
+                        credited = True     
+                        while credited == True:
+                            pygame.event.pump()
+                            pygame.mouse.set_visible(1)
+                            for option in self.creditOptions:
+                                if option.rect.collidepoint(pygame.mouse.get_pos()):
+                                    option.hovered = True
+                                else:
+                                    option.hovered = False
+                                option.draw()
+                            pygame.display.update()
+                            for event in pygame.event.get():
+                                if event.type == QUIT:
+                                    return
+                                if self.creditOptions[0].hovered == True:
+                                    if event.type == MOUSEBUTTONDOWN:
+                                        pygame.mouse.set_visible(1)
+                                        credited = False
+                        self.surface.blit(self.TitleScreen, (0, 0))
+                        
                 if self.options[2].hovered == True:
                     if event.type == MOUSEBUTTONDOWN:
                         pygame.mouse.set_visible(1)
@@ -70,14 +98,14 @@ class Menu:
                     
     def __init__(self, controller):
         pygame.init()
-        menu_font = pygame.font.Font(None, 40)
+        menuFont = pygame.font.Font(None, 40)
 
         self.c = controller
         self.surface = controller.screen
 
-        start = self.Option("START", (200, 540), menu_font, self.surface)
-        credits = self.Option("CREDITS", (182, 580), menu_font, self.surface)
-        exit = self.Option("EXIT", (210, 620), menu_font, self.surface)
+        start = self.Option("START", (200, 540), menuFont, self.surface)
+        credits = self.Option("CREDITS", (182, 580), menuFont, self.surface)
+        exit = self.Option("EXIT", (210, 620), menuFont, self.surface)
         
         self.options = [start, credits, exit]
         self.TitleScreen = pygame.image.load("images/Title.png")
@@ -85,6 +113,6 @@ class Menu:
         self.surface.blit(self.TitleScreen, (0, 0))
         
     def start(self):
-        self.menustart()
+        self.menuStart()
         
     
