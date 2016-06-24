@@ -119,23 +119,22 @@ class Controller:
                     xcoord = randint(100, 400)
                     ycoord = randint(100, 450)
                     pUp = PowerUp((xcoord, ycoord), 0)
-                    print("PowerUp")
                 keys = pygame.key.get_pressed()
                 if keys[K_ESCAPE]:
-                    pause = True
-                    while pause == True:
-                        pauseMenu = PauseMenu.Menu(self)
-                        pauseMenu.pause(self)
-                        if keys[K_ESCAPE]:
-                            pause = False
+                    #pause = True
+                    #while pause == True:
+                    pauseMenu = PauseMenu.Menu(self)
+                    action = pauseMenu.pause(self)
+                    if action != "Continue":
+                        return action
+                        #pause = False
+                    
 
 
             # else:
             if self.ship.invincible and time.time() - self.ship.invincTime >= 2:
                 self.ship.switchIndex(0)
                 self.ship.invincible = False
-                5
             pygame.display.update()
 
             self.repaint()
-

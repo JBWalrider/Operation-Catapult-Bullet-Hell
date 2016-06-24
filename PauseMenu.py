@@ -40,8 +40,8 @@ class Menu:
     def pauseMenuStart(self, controller):
         self.c = controller
         global pause
-        pause = True        
-        while pause == True:
+        #pause = True        
+        while True:
             pygame.event.pump()
             pygame.mouse.set_visible(1)
             for option in self.options:
@@ -53,18 +53,21 @@ class Menu:
             pygame.display.update()
             for event in pygame.event.get():
                 if event.type == QUIT:
-                    return
+                    return "Quit"
                 if self.options[0].hovered == True:
                     if event.type == MOUSEBUTTONDOWN:
-                        pygame.mouse.set_visible(0)
-                        pause = False
+                        pygame.mouse.set_visible(False)
+                        #pause = False
+                        return "Continue"
                         
                 if self.options[1].hovered == True:
                     if event.type == MOUSEBUTTONDOWN:
-                        pygame.mouse.set_visible(1)
-                        replayMenu = MainMenu.Menu(self.c)
-                        replayMenu.start()
-                        pygame.quit()
+                        pygame.mouse.set_visible(True)
+                        #replayMenu = MainMenu.Menu(self.c)
+                        #replayMenu.start()
+                        #pause = False
+                        return "Exit"
+                        #pygame.quit()
                     
     def __init__(self, controller):
         pauseMenuFont = pygame.font.Font(None, 40)
@@ -81,7 +84,7 @@ class Menu:
         #self.surface.blit(self.TitleScreen, (0, 0))
         
     def pause(self, controller):
-        self.pauseMenuStart(controller)
+        return self.pauseMenuStart(controller)
         #self.surface.blit(self.TitleScreen, (0,0))
         
     
