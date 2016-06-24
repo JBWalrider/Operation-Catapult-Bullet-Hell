@@ -1,7 +1,8 @@
-import pygame
+import pygame, time
 from pygame.locals import *
 from Bullet import *
 from Enemy_Bullet import *
+
 
 class Ship(pygame.sprite.Sprite):
     canShoot = False
@@ -57,3 +58,9 @@ class Ship(pygame.sprite.Sprite):
     def switchIndex(self, index):
         self.imageIndex = index
         self.image = self.imageList[self.imageIndex]
+
+    def giveShield(self, duration):
+        self.invincTime =  time.time()
+        self.invincible = True
+        self.duration = duration
+        self.switchIndex(1)

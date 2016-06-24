@@ -19,6 +19,7 @@ class Controller:
     ship = None
 
     spaceGroup = None
+    powerUpGroup = None
     shipGroup = None
     bulletGroup = None
     enemyGroup = None
@@ -33,15 +34,17 @@ class Controller:
 
         pygame.display.set_caption("Bullet Hell")
         pygame.mouse.set_visible(0)
+        pygame.mixer.pre_init(44100, -16, 2, 2048)
         pygame.init()
         
     def repaint(self):
         self.screen.fill((0, 0, 0))
         self.spaceGroup.draw(self.screen)
+        self.powerUpGroup.draw(self.screen)
         self.shipGroup.draw(self.screen)
         self.bulletGroup.draw(self.screen)
         self.enemyGroup.draw(self.screen)
-        self.powerUpGroup.draw(self.screen)
+        
 
     def shoot(self, b):
         self.bulletGroup.add(b)
@@ -50,8 +53,8 @@ class Controller:
         global pause  
         pause = False
 
-        music = pygame.mixer.music.load("sounds/gameMusic.mp3")
-        #pygame.mixer.music.play()
+        gameMusic = pygame.mixer.music.load("sounds/gameMusic.mp3")
+        pygame.mixer.music.play(-1) 
 
         self.scroll = ScrollScreen(self.SCREEN_HEIGHT)
         self.ship = Ship(self.SCREEN_SIZE, self)
@@ -62,13 +65,18 @@ class Controller:
         self.enemyGroup = pygame.sprite.RenderPlain(())
         self.powerUpGroup = pygame.sprite.RenderPlain(())
 
+        enemyDeath = pygame.mixer.Sound("sounds/enemyDeath.wav")
+        #shipDeath = pygame.mixer.Sound("sounds/shipDeath.wav")
+        bossFight = pygame.mixer.Sound("sounds/bossFight.wav")
+        
+
         pygame.time.set_timer(pygame.USEREVENT+1, 50)                   #Timer for bullet
         pygame.time.set_timer(pygame.USEREVENT+2, 100)                  #Timer for background
-        pygame.time.set_timer(pygame.USEREVENT+3, 350)                  #Timer for shooting
+        pygame.time.set_timer(pygame.USEREVENT+3, 300)                  #Timer for shooting
         pygame.time.set_timer(pygame.USEREVENT+4, 10)                   #Timer for moving
         pygame.time.set_timer(pygame.USEREVENT+5, 500)                  #Timer for Enemy Shooting
         pygame.time.set_timer(pygame.USEREVENT+6, 500)                  #Timer for enemy spawn
-        pygame.time.set_timer(pygame.USEREVENT+7, 100)                #Timer for Power Up spawn
+        pygame.time.set_timer(pygame.USEREVENT+7, 30000)                #Timer for Power Up spawn
 
         while True:
             for event in pygame.event.get():
@@ -81,15 +89,15 @@ class Controller:
                     for x in range(len(bulletList)):
                         for i in range(len(enemyList)):
                             if bulletList[x].team == 0 and pygame.sprite.collide_circle(bulletList[x], enemyList[i]):
+                                enemyDeath.play()
                                 enemyList[i].kill()
                                 bulletList[x].kill()
                         if bulletList[x].team == 1 and pygame.sprite.collide_circle(self.ship, bulletList[x]):
                             bulletList[x].kill()
                             if not self.ship.invincible:
+                                #shipDeath.play()
                                 self.ship.lives -= 1
-                                self.ship.invincTime =  time.time()
-                                self.ship.invincible = True
-                                self.ship.switchIndex(1)
+                                self.ship.giveShield(2)
                            
                             if self.ship.lives <= 0:
                                 return
@@ -100,6 +108,13 @@ class Controller:
                 if event.type == USEREVENT+3:
                     self.ship.canShoot = True
                 if event.type == USEREVENT+4:
+                    powerUp = self.powerUpGroup.sprites()
+                    for x in range(len(self.powerUpGroup)):
+                        if pygame.sprite.collide_circle(self.ship, powerUp[x]):
+                            powerUp[x].power(self.ship)
+                            powerUp[x].kill()
+                            
+                    
                     self.shipGroup.update()
                     self.enemyGroup.update()
                 if event.type == USEREVENT+5:
@@ -108,7 +123,6 @@ class Controller:
                         enemyList[i].shoot()
                 if event.type == USEREVENT+6:
                     sType = randint(0, 1)
-                    #path = "images\\Enemy_" + (1+sType)
                     path = "images\\Enemy_" + str(sType) + ".png"
                     initX = randint(100, 400)
                     initDX = randint(-1, 1)
@@ -119,6 +133,11 @@ class Controller:
                     xcoord = randint(100, 400)
                     ycoord = randint(100, 450)
                     pUp = PowerUp((xcoord, ycoord), 0)
+<<<<<<< HEAD
+=======
+                    self.powerUpGroup.add(pUp)
+                    print("PowerUp")
+>>>>>>> d8374aba568dc136c807a2cacf5dc2ea835de542
                 keys = pygame.key.get_pressed()
                 if keys[K_ESCAPE]:
                     #pause = True
@@ -132,9 +151,13 @@ class Controller:
 
 
             # else:
-            if self.ship.invincible and time.time() - self.ship.invincTime >= 2:
+            if self.ship.invincible and time.time() - self.ship.invincTime >= self.ship.duration:
                 self.ship.switchIndex(0)
                 self.ship.invincible = False
+<<<<<<< HEAD
+=======
+                
+>>>>>>> d8374aba568dc136c807a2cacf5dc2ea835de542
             pygame.display.update()
 
             self.repaint()
