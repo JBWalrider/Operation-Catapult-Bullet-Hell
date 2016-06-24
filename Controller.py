@@ -64,7 +64,7 @@ class Controller:
         self.powerUpGroup = pygame.sprite.RenderPlain(())
 
         enemyDeath = pygame.mixer.Sound("sounds/enemyDeath.wav")
-        #shipDeath = pygame.mixer.Sound.load("sounds/shipDeath.wav")
+        #shipDeath = pygame.mixer.Sound("sounds/shipDeath.wav")
         bossFight = pygame.mixer.Sound("sounds/bossFight.wav")
         
 
