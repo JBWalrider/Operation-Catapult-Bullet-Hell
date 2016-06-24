@@ -4,9 +4,11 @@ from Enemy_Bullet import *
 
 class Enemy(pygame.sprite.Sprite):
 
-    def __init__(self, imagePath, initX, initY, initDX, initDY, sType, controller):
+    def __init__(self, imagePath, initX, initY, initDX, initDY, sType, controller, imagePath_2):
         super().__init__()
-        self.image = pygame.image.load(imagePath)
+        self.imageList = (pygame.image.load(imagePath), pygame.image.load(imagePath_2))
+        self.imageIndex = 0
+        self.image = self.imageList[self.imageIndex]
         self.rect = self.image.get_rect()
         self.rect.centerx = initX 
         self.rect.centery = initY
@@ -15,6 +17,7 @@ class Enemy(pygame.sprite.Sprite):
         self.sType = sType
         self.controller = controller
         self.radius = 10
+       
 
     def rightOOB(self):
         #print(self.rect.right > 600 + self.rect.height)
@@ -50,3 +53,6 @@ class Enemy(pygame.sprite.Sprite):
 
     def draw(self, surface):
         pygame.draw.rect(surface, [255, 000, 000], self.rect, 0)
+
+    def switchIndex(self, index):
+        self.imageIndex = index

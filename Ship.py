@@ -9,7 +9,9 @@ class Ship(pygame.sprite.Sprite):
 
     def __init__ (self, screenSize, controller):
         super().__init__()
-        self.image = pygame.image.load("images\\Spaceship.png")
+        self.imageList = (pygame.image.load("images\\Spaceship.png"), pygame.image.load("images\\Spaceship_Shield.png"))
+        self.imageIndex = 0
+        self.image = self.imageList[self.imageIndex]
         self.rect = self.image.get_rect()
         self.screenWidth = screenSize[0]
         self.screenHeight = screenSize[1]
@@ -50,3 +52,8 @@ class Ship(pygame.sprite.Sprite):
 
     def draw(self, surf):
         pygame.draw.rect(surf, [255, 000, 000], self.rect, 0)
+
+
+    def switchIndex(self, index):
+        self.imageIndex = index
+        self.image = self.imageList[self.imageIndex]
