@@ -133,11 +133,8 @@ class Controller:
                     xcoord = randint(100, 400)
                     ycoord = randint(100, 450)
                     pUp = PowerUp((xcoord, ycoord), 0)
-<<<<<<< HEAD
-=======
                     self.powerUpGroup.add(pUp)
                     print("PowerUp")
->>>>>>> d8374aba568dc136c807a2cacf5dc2ea835de542
                 keys = pygame.key.get_pressed()
                 if keys[K_ESCAPE]:
                     #pause = True
@@ -154,10 +151,7 @@ class Controller:
             if self.ship.invincible and time.time() - self.ship.invincTime >= self.ship.duration:
                 self.ship.switchIndex(0)
                 self.ship.invincible = False
-<<<<<<< HEAD
-=======
                 
->>>>>>> d8374aba568dc136c807a2cacf5dc2ea835de542
             pygame.display.update()
 
             self.repaint()

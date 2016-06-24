@@ -56,7 +56,6 @@ class Menu:
                     return
                 if self.options[0].hovered == True:
                     if event.type == MOUSEBUTTONDOWN:
-<<<<<<< HEAD
                         pygame.mouse.set_visible(False)
                         pygame.mixer.music.stop()
                         action = self.c.start()
@@ -67,12 +66,6 @@ class Menu:
                         elif action == "Quit":
                             return
                         #pygame.quit()
-=======
-                        pygame.mouse.set_visible(0)
-                        pygame.mixer.music.play(-1) 
-                        self.c.start()
-                        pygame.quit()
->>>>>>> d8374aba568dc136c807a2cacf5dc2ea835de542
                 if self.options[1].hovered == True:
                     if event.type == MOUSEBUTTONDOWN:
                         pygame.mouse.set_visible(True)
