@@ -5,8 +5,8 @@ from Bullet import *
 from ScrollScreen import *
 from Enemy import *
 from random import randint
-from Menu import *
-from PauseMenu import *
+import MainMenu
+import PauseMenu
 
 class Controller:
 
@@ -93,7 +93,7 @@ class Controller:
                 if keys[K_ESCAPE]:
                     pause = True
                     while pause == True:
-                        pauseMenu = PauseMenu(self)
+                        pauseMenu = PauseMenu.Menu(self)
                         pauseMenu.pause(self)
                         if keys[K_ESCAPE]:
                             pause = False

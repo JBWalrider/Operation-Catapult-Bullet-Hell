@@ -62,7 +62,8 @@ class Menu:
                         self.surface.blit(self.Credits, (0, 0))
                 if self.options[2].hovered == True:
                     if event.type == MOUSEBUTTONDOWN:
-                        pygame.mouse.set_visible(0)
+                        pygame.mouse.set_visible(1)
+                        pygame.quit()
                         return
                     
     def __init__(self, controller):

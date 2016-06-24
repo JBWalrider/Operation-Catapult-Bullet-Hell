@@ -1,9 +1,9 @@
 import pygame
 from pygame.locals import *
 from Controller import *
-from Menu import *
+import MainMenu
 
-class PauseMenu:
+class Menu:
     
     class Option:
 
@@ -62,7 +62,7 @@ class PauseMenu:
                 if self.options[1].hovered == True:
                     if event.type == MOUSEBUTTONDOWN:
                         pygame.mouse.set_visible(1)
-                        replayMenu = Menu(self.c)
+                        replayMenu = MainMenu.Menu(self.c)
                         replayMenu.start()
                     
     def __init__(self, controller):
@@ -71,8 +71,8 @@ class PauseMenu:
         self.c = controller
         self.surface = controller.screen
 
-        cont = self.Option("CONTINUE", (178, 540), menu_font, self.surface)
-        quit = self.Option("QUIT", (222, 580), menu_font, self.surface)
+        cont = self.Option("CONTINUE", (178, 330), menu_font, self.surface)
+        quit = self.Option("QUIT", (222, 370), menu_font, self.surface)
         
         self.options = [cont, quit]
         #self.TitleScreen = pygame.image.load("images/Title.png")
