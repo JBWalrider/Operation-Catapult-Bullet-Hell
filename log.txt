@@ -1,0 +1,20 @@
+6/14/16 Tuesday
+We were originally going to do a mafia gmae with networking and AI but then the networkers filed a divorce, and we were left with Daniel, Jan, Tim, and Junyoung
+
+6/15/16 Wednesday - 6/19/16 Sunday
+More brainstorming - Daniel came up with the idea of a bullet hell game because those are his second favorite game
+
+6/20/16 Monday
+We designed the game and wrote our ideas on the obard.
+
+6/21/16 Tuesday
+We started coding and completed a very primitive ship class that didn't really work
+
+6/22/16 Wednesday
+Lewis and Jan collaborated and bounced ideas to make working ship and bullet classes along with sprites. Jan made a scrollscreen and the main loop, and then Wesley split up and organized the files and set up github for everyone. He also added timers to make sure that the objects do not lag.  Daniel worked on the abstract and is half done. He has a rough draft.
+
+6/23/16 Thursday
+Jan half-heartedly proofread Daniel's abstract. We will have to proofread it again. Wesley and Lewis are working on the enemy class, as well as the potential bosses. Jan gave them plenty of game and implementation ideas. We have yet to collide with collisions, besides the untested collisions classes that Jan uploaded.
+
+6/24/16 Friday
+Test

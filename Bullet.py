@@ -10,7 +10,8 @@ class Bullet(pygame.sprite.Sprite):
         self.image = pygame.image.load("images\\Bullet.png")
         self.rect = self.image.get_rect()
         self.rect.center = pos
-        self.speed = -15
+        self.speed = -20
+        self.team = 0
         
     def update(self):
         if self.rect.top < 0 - self.rect.height:

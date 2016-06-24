@@ -14,6 +14,7 @@ class Enemy(pygame.sprite.Sprite):
         self.dy = initDY
         self.sType = sType
         self.controller = controller
+        self.radius = 10
 
     def rightOOB(self):
         #print(self.rect.right > 600 + self.rect.height)
@@ -36,15 +37,15 @@ class Enemy(pygame.sprite.Sprite):
 
     def shoot(self):
         if self.sType == 0:     #Single straight down
-            eb = Enemy_Bullet(self.rect.center, 15, 0)
+            eb = Enemy_Bullet(self.rect.center, 12, 0)
             self.controller.shoot(eb)
         elif self.sType == 1:   #Triple shot (small cone)
             for i in range(-1, 2):
-                eb = Enemy_Bullet(self.rect.center, 15, i*45)
+                eb = Enemy_Bullet(self.rect.center, 12, i*45)
                 self.controller.shoot(eb)
         elif self.sType == 2:   #Six shot (large cone)
             for i in range(-3, 4):
-                eb = Enemy_Bullet(self.rect.center, 15, i*15)
+                eb = Enemy_Bullet(self.rect.center, 12, i*15)
                 self.controller.shoot(eb)
 
     def draw(self, surface):

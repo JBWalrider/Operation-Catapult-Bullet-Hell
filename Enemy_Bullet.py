@@ -15,6 +15,8 @@ class Enemy_Bullet(Bullet):
         self.rect.center = pos
         self.speed = speed
         self.angle = math.radians(angle)
+        self.radius = 4
+        self.team = 1
 
     def upOOB(self):
         return self.rect.top < 0 - self.rect.height
