@@ -16,8 +16,8 @@ class Menu:
             self.surface = surface
             self.set_rect()
             self.draw()
-            music = pygame.mixer.music.load("sounds/menuMusic.mp3")
-            pygame.mixer.music.play()
+            #music = pygame.mixer.music.load("sounds/menuMusic.mp3")
+            #pygame.mixer.music.play()
                 
         def draw(self):
             self.set_rend()

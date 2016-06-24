@@ -19,6 +19,7 @@ class Controller:
     ship = None
 
     spaceGroup = None
+    powerUpGroup = None
     shipGroup = None
     bulletGroup = None
     enemyGroup = None
@@ -38,10 +39,11 @@ class Controller:
     def repaint(self):
         self.screen.fill((0, 0, 0))
         self.spaceGroup.draw(self.screen)
+        self.powerUpGroup.draw(self.screen)
         self.shipGroup.draw(self.screen)
         self.bulletGroup.draw(self.screen)
         self.enemyGroup.draw(self.screen)
-        self.powerUpGroup.draw(self.screen)
+        
 
     def shoot(self, b):
         self.bulletGroup.add(b)
@@ -64,11 +66,11 @@ class Controller:
 
         pygame.time.set_timer(pygame.USEREVENT+1, 50)                   #Timer for bullet
         pygame.time.set_timer(pygame.USEREVENT+2, 100)                  #Timer for background
-        pygame.time.set_timer(pygame.USEREVENT+3, 350)                  #Timer for shooting
+        pygame.time.set_timer(pygame.USEREVENT+3, 300)                  #Timer for shooting
         pygame.time.set_timer(pygame.USEREVENT+4, 10)                   #Timer for moving
         pygame.time.set_timer(pygame.USEREVENT+5, 500)                  #Timer for Enemy Shooting
         pygame.time.set_timer(pygame.USEREVENT+6, 500)                  #Timer for enemy spawn
-        pygame.time.set_timer(pygame.USEREVENT+7, 100)                #Timer for Power Up spawn
+        pygame.time.set_timer(pygame.USEREVENT+7, 30000)                #Timer for Power Up spawn
 
         while True:
             for event in pygame.event.get():
@@ -87,9 +89,7 @@ class Controller:
                             bulletList[x].kill()
                             if not self.ship.invincible:
                                 self.ship.lives -= 1
-                                self.ship.invincTime =  time.time()
-                                self.ship.invincible = True
-                                self.ship.switchIndex(1)
+                                self.ship.giveShield(2)
                            
                             if self.ship.lives <= 0:
                                 return
@@ -100,6 +100,13 @@ class Controller:
                 if event.type == USEREVENT+3:
                     self.ship.canShoot = True
                 if event.type == USEREVENT+4:
+                    powerUp = self.powerUpGroup.sprites()
+                    for x in range(len(self.powerUpGroup)):
+                        if pygame.sprite.collide_circle(self.ship, powerUp[x]):
+                            powerUp[x].power(self.ship)
+                            powerUp[x].kill()
+                            
+                    
                     self.shipGroup.update()
                     self.enemyGroup.update()
                 if event.type == USEREVENT+5:
@@ -119,6 +126,7 @@ class Controller:
                     xcoord = randint(100, 400)
                     ycoord = randint(100, 450)
                     pUp = PowerUp((xcoord, ycoord), 0)
+                    self.powerUpGroup.add(pUp)
                     print("PowerUp")
                 keys = pygame.key.get_pressed()
                 if keys[K_ESCAPE]:
@@ -131,10 +139,10 @@ class Controller:
 
 
             # else:
-            if self.ship.invincible and time.time() - self.ship.invincTime >= 2:
+            if self.ship.invincible and time.time() - self.ship.invincTime >= self.ship.duration:
                 self.ship.switchIndex(0)
                 self.ship.invincible = False
-                5
+                
             pygame.display.update()
 
             self.repaint()
