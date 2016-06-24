@@ -34,6 +34,7 @@ class Controller:
 
         pygame.display.set_caption("Bullet Hell")
         pygame.mouse.set_visible(0)
+        pygame.mixer.pre_init(44100, -16, 2, 2048)
         pygame.init()
         
     def repaint(self):
@@ -52,8 +53,8 @@ class Controller:
         global pause  
         pause = False
 
-        music = pygame.mixer.music.load("sounds/gameMusic.mp3")
-        #pygame.mixer.music.play()
+        gameMusic = pygame.mixer.music.load("sounds/gameMusic.mp3")
+        pygame.mixer.music.play(-1) 
 
         self.scroll = ScrollScreen(self.SCREEN_HEIGHT)
         self.ship = Ship(self.SCREEN_SIZE, self)
@@ -63,6 +64,11 @@ class Controller:
         self.bulletGroup = pygame.sprite.RenderPlain(()) 
         self.enemyGroup = pygame.sprite.RenderPlain(())
         self.powerUpGroup = pygame.sprite.RenderPlain(())
+
+        enemyDeath = pygame.mixer.Sound("sounds/enemyDeath.wav")
+        #shipDeath = pygame.mixer.Sound("sounds/shipDeath.wav")
+        bossFight = pygame.mixer.Sound("sounds/bossFight.wav")
+        
 
         pygame.time.set_timer(pygame.USEREVENT+1, 50)                   #Timer for bullet
         pygame.time.set_timer(pygame.USEREVENT+2, 100)                  #Timer for background
@@ -83,11 +89,13 @@ class Controller:
                     for x in range(len(bulletList)):
                         for i in range(len(enemyList)):
                             if bulletList[x].team == 0 and pygame.sprite.collide_circle(bulletList[x], enemyList[i]):
+                                enemyDeath.play()
                                 enemyList[i].kill()
                                 bulletList[x].kill()
                         if bulletList[x].team == 1 and pygame.sprite.collide_circle(self.ship, bulletList[x]):
                             bulletList[x].kill()
                             if not self.ship.invincible:
+                                #shipDeath.play()
                                 self.ship.lives -= 1
                                 self.ship.giveShield(2)
                            
@@ -115,7 +123,6 @@ class Controller:
                         enemyList[i].shoot()
                 if event.type == USEREVENT+6:
                     sType = randint(0, 1)
-                    #path = "images\\Enemy_" + (1+sType)
                     path = "images\\Enemy_" + str(sType) + ".png"
                     initX = randint(100, 400)
                     initDX = randint(-1, 1)
