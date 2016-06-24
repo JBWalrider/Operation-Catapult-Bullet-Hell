@@ -17,3 +17,4 @@ Lewis and Jan collaborated and bounced ideas to make working ship and bullet cla
 Jan half-heartedly proofread Daniel's abstract. We will have to proofread it again. Wesley and Lewis are working on the enemy class, as well as the potential bosses. Jan gave them plenty of game and implementation ideas. We have yet to collide with collisions, besides the untested collisions classes that Jan uploaded.
 
 6/24/16 Friday
+Test
