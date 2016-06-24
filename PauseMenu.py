@@ -64,15 +64,16 @@ class Menu:
                         pygame.mouse.set_visible(1)
                         replayMenu = MainMenu.Menu(self.c)
                         replayMenu.start()
+                        pygame.quit()
                     
     def __init__(self, controller):
-        menu_font = pygame.font.Font(None, 40)
+        pauseMenuFont = pygame.font.Font(None, 40)
 
         self.c = controller
         self.surface = controller.screen
 
-        cont = self.Option("CONTINUE", (178, 330), menu_font, self.surface)
-        quit = self.Option("QUIT", (222, 370), menu_font, self.surface)
+        cont = self.Option("CONTINUE", (178, 330), pauseMenuFont, self.surface)
+        quit = self.Option("QUIT", (222, 370), pauseMenuFont, self.surface)
         
         self.options = [cont, quit]
         #self.TitleScreen = pygame.image.load("images/Title.png")
