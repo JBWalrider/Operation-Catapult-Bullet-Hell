@@ -17,6 +17,10 @@ class Ship(pygame.sprite.Sprite):
         self.rect.centery = self.screenHeight / 2
         self.offset = self.rect.width/2
         self.controller = controller
+        self.radius = 12
+        self.lives = 3
+        self.invincible = False
+        self.invincTime = 0
    
     def update(self):        
         key = pygame.key.get_pressed()
