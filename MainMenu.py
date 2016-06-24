@@ -1,7 +1,6 @@
 import pygame
 from pygame.locals import *
 from Controller import *
-import Credits
 
 class Menu:
 
