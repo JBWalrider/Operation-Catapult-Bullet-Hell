@@ -5,6 +5,8 @@ from Bullet import *
 from ScrollScreen import *
 from Enemy import *
 from random import randint
+from Menu import *
+from PauseMenu import *
 
 class Controller:
 
@@ -27,14 +29,11 @@ class Controller:
         self.SCREEN_SIZE = (self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
 
         self.screen = pygame.display.set_mode(self.SCREEN_SIZE)
-        
+
         pygame.display.set_caption("Bullet Hell")
         pygame.mouse.set_visible(0)
         pygame.init()
-
-        #music = pygame.mixer.music.load("sound4.mp3")
-        #pygame.mixer.music.play()
-
+    
     def repaint(self):
         self.screen.fill((0, 0, 0))
         self.spaceGroup.draw(self.screen)
@@ -45,7 +44,9 @@ class Controller:
     def shoot(self, b):
         self.bulletGroup.add(b)
 
-    def start(self):        
+    def start(self):    
+        global pause  
+        pause = False
         self.scroll = ScrollScreen(self.SCREEN_HEIGHT)
         self.ship = Ship(self.SCREEN_SIZE, self)
 
@@ -88,10 +89,17 @@ class Controller:
                     initDY = randint(1, 2)
                     enemy = Enemy(path, initX, 0, initDX, initDY, sType, self)
                     self.enemyGroup.add(enemy)
-                  
+                keys = pygame.key.get_pressed()
+                if keys[K_ESCAPE]:
+                    pause = True
+                    while pause == True:
+                        pauseMenu = PauseMenu(self)
+                        pauseMenu.pause(self)
+                        if keys[K_ESCAPE]:
+                            pause = False
 
             pygame.display.update()
 
             self.repaint()
 
-        pygame.quit()    
+        #pygame.quit()    
