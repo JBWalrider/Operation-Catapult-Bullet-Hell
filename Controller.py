@@ -68,15 +68,16 @@ class Controller:
         enemyDeath = pygame.mixer.Sound("sounds/enemyDeath.wav")
         #shipDeath = pygame.mixer.Sound("sounds/shipDeath.wav")
         bossFight = pygame.mixer.Sound("sounds/bossFight.wav")
-        
+
 
         pygame.time.set_timer(pygame.USEREVENT+1, 50)                   #Timer for bullet
         pygame.time.set_timer(pygame.USEREVENT+2, 100)                  #Timer for background
         pygame.time.set_timer(pygame.USEREVENT+3, 300)                  #Timer for shooting
         pygame.time.set_timer(pygame.USEREVENT+4, 10)                   #Timer for moving
-        pygame.time.set_timer(pygame.USEREVENT+5, 700)                  #Timer for Enemy Shooting
-        pygame.time.set_timer(pygame.USEREVENT+6, 700)                  #Timer for enemy spawn
-        pygame.time.set_timer(pygame.USEREVENT+7, 2000)                #Timer for Power Up spawn
+        pygame.time.set_timer(pygame.USEREVENT+5, 500)                  #Timer for Enemy Shooting
+        pygame.time.set_timer(pygame.USEREVENT+6, 500)                  #Timer for enemy spawn
+        pygame.time.set_timer(pygame.USEREVENT+7, 30000)                #Timer for Power Up spawn
+        pygame.time.set_timer(pygame.USEREVENT, 120000)                 #Timer for boss spawn
 
         while True:
             for event in pygame.event.get():
@@ -133,8 +134,10 @@ class Controller:
                     xcoord = randint(100, 400)
                     ycoord = randint(100, 450)
                     pType = randint(0, 2)
-                    pUp = PowerUp((xcoord, ycoord), pType)
+                    pUp = PowerUp((xcoord, ycoord), 0)
                     self.powerUpGroup.add(pUp)
+                if event.type == USEREVENT:
+                    pass
                 keys = pygame.key.get_pressed()
                 if keys[K_ESCAPE]:
                     #pause = True
