@@ -81,7 +81,7 @@ class Controller:
         while True:
             for event in pygame.event.get():
                 if event.type == QUIT:
-                    return
+                    return "Quit"
                 if event.type == USEREVENT+1:
                     bulletList = self.bulletGroup.sprites()   
                     self.bulletGroup.update()
@@ -100,7 +100,7 @@ class Controller:
                                 self.ship.giveShield(2, 1)
                            
                             if self.ship.lives <= 0:
-                                return
+                                return "Exit"
                             
                     
                 if event.type == USEREVENT+2:
@@ -137,12 +137,14 @@ class Controller:
                     print("PowerUp")
                 keys = pygame.key.get_pressed()
                 if keys[K_ESCAPE]:
-                    pause = True
-                    while pause == True:
-                        pauseMenu = PauseMenu.Menu(self)
-                        pauseMenu.pause(self)
-                        if keys[K_ESCAPE]:
-                            pause = False
+                    #pause = True
+                    #while pause == True:
+                    pauseMenu = PauseMenu.Menu(self)
+                    action = pauseMenu.pause(self)
+                    if action != "Continue":
+                        return action
+                        #pause = False
+                    
 
 
             # else:
@@ -153,4 +155,3 @@ class Controller:
             pygame.display.update()
 
             self.repaint()
-
