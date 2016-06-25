@@ -74,9 +74,9 @@ class Controller:
         pygame.time.set_timer(pygame.USEREVENT+2, 100)                  #Timer for background
         pygame.time.set_timer(pygame.USEREVENT+3, 300)                  #Timer for shooting
         pygame.time.set_timer(pygame.USEREVENT+4, 10)                   #Timer for moving
-        pygame.time.set_timer(pygame.USEREVENT+5, 500)                  #Timer for Enemy Shooting
-        pygame.time.set_timer(pygame.USEREVENT+6, 500)                  #Timer for enemy spawn
-        pygame.time.set_timer(pygame.USEREVENT+7, 30000)                #Timer for Power Up spawn
+        pygame.time.set_timer(pygame.USEREVENT+5, 700)                  #Timer for Enemy Shooting
+        pygame.time.set_timer(pygame.USEREVENT+6, 700)                  #Timer for enemy spawn
+        pygame.time.set_timer(pygame.USEREVENT+7, 2000)                #Timer for Power Up spawn
 
         while True:
             for event in pygame.event.get():
@@ -132,9 +132,9 @@ class Controller:
                 if event.type == USEREVENT+7:
                     xcoord = randint(100, 400)
                     ycoord = randint(100, 450)
-                    pUp = PowerUp((xcoord, ycoord), 0)
+                    pType = randint(0, 2)
+                    pUp = PowerUp((xcoord, ycoord), pType)
                     self.powerUpGroup.add(pUp)
-                    print("PowerUp")
                 keys = pygame.key.get_pressed()
                 if keys[K_ESCAPE]:
                     #pause = True
@@ -151,6 +151,8 @@ class Controller:
             if self.ship.invincible and time.time() - self.ship.invincTime >= self.ship.duration:
                 self.ship.switchIndex(0)
                 self.ship.invincible = False
+            if self.ship.shotNumber == 3 and time.time() - self.ship.triShotTime >= self.ship.duration1:
+                self.ship.changeShotSingle()
                 
             pygame.display.update()
 

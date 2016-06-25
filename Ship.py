@@ -24,6 +24,7 @@ class Ship(pygame.sprite.Sprite):
         self.lives = 3
         self.invincible = False
         self.invincTime = 0
+        self.shotNumber = 1
    
     def update(self):        
         key = pygame.key.get_pressed()
@@ -38,9 +39,19 @@ class Ship(pygame.sprite.Sprite):
             self.rect.centerx += -2
         if key[K_SPACE]:
             if self.canShoot:
-                b = Bullet( self.rect.midtop)
-                self.controller.shoot(b)
-                self.canShoot = False
+                if self.shotNumber == 1:
+                    b = Bullet( self.rect.midtop)
+                    self.controller.shoot(b)
+                    self.canShoot = False
+                if self.shotNumber == 3:
+                    b1 = Bullet(self.rect.topleft)
+                    b2 = Bullet(self.rect.midtop)
+                    b3 = Bullet(self.rect.topright)
+                    self.controller.shoot(b1)
+                    self.controller.shoot(b2)
+                    self.controller.shoot(b3)
+                    self.canShoot = False
+
     
         if self.rect.centerx > self.screenWidth-self.offset:
             self.rect.centerx = self.screenWidth-self.offset
@@ -64,3 +75,12 @@ class Ship(pygame.sprite.Sprite):
         self.invincible = True
         self.duration = duration
         self.switchIndex(cType)
+    def addLife(self):
+        self.lives = 3
+    def changeShotTri(self, duration):
+        self.triShotTime = time.time()
+        self.shotNumber = 3
+        self.duration1 = duration
+    def changeShotSingle(self):
+        self.shotNumber = 1
+
