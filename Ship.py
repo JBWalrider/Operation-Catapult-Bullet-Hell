@@ -10,7 +10,7 @@ class Ship(pygame.sprite.Sprite):
 
     def __init__ (self, screenSize, controller):
         super().__init__()
-        self.imageList = (pygame.image.load("images\\Spaceship.png"), pygame.image.load("images\\Spaceship_Shield.png"))
+        self.imageList = (pygame.image.load("images\\Spaceship.png"), pygame.image.load("images\\Spaceship_Shield.png"), pygame.image.load("images\\Spaceship_ShieldPowerUp.png"))
         self.imageIndex = 0
         self.image = self.imageList[self.imageIndex]
         self.rect = self.image.get_rect()
@@ -59,8 +59,8 @@ class Ship(pygame.sprite.Sprite):
         self.imageIndex = index
         self.image = self.imageList[self.imageIndex]
 
-    def giveShield(self, duration):
+    def giveShield(self, duration, cType):
         self.invincTime =  time.time()
         self.invincible = True
         self.duration = duration
-        self.switchIndex(1)
+        self.switchIndex(cType)

@@ -97,7 +97,7 @@ class Controller:
                             if not self.ship.invincible:
                                 #shipDeath.play()
                                 self.ship.lives -= 1
-                                self.ship.giveShield(2)
+                                self.ship.giveShield(2, 1)
                            
                             if self.ship.lives <= 0:
                                 return

@@ -19,5 +19,5 @@ class PowerUp(pygame.sprite.Sprite):
 
     def power(self, ship):
         if self.pType == 0:
-            ship.giveShield(10)
+            ship.giveShield(10, 2)
       
