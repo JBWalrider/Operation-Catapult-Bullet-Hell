@@ -54,7 +54,7 @@ class Controller:
         pause = False
 
         gameMusic = pygame.mixer.music.load("sounds/gameMusic.mp3")
-        pygame.mixer.music.play(-1) 
+        #pygame.mixer.music.play(-1) 
 
         self.scroll = ScrollScreen(self.SCREEN_HEIGHT)
         self.ship = Ship(self.SCREEN_SIZE, self)
@@ -81,7 +81,7 @@ class Controller:
         while True:
             for event in pygame.event.get():
                 if event.type == QUIT:
-                    return
+                    return "Quit"
                 if event.type == USEREVENT+1:
                     bulletList = self.bulletGroup.sprites()   
                     self.bulletGroup.update()
@@ -100,7 +100,7 @@ class Controller:
                                 self.ship.giveShield(2)
                            
                             if self.ship.lives <= 0:
-                                return
+                                return "Exit"
                             
                     
                 if event.type == USEREVENT+2:
