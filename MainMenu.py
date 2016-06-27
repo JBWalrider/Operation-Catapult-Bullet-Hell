@@ -61,9 +61,9 @@ class Menu:
 
                         difficultyFont = pygame.font.Font(None, 40)
                         
-                        easy = self.Option("EASY", (200, 400), difficultyFont, self.surface)
-                        med = self.Option("MEDIUM", (200, 440), difficultyFont, self.surface)
-                        hard = self.Option("HARD", (200, 480), difficultyFont, self.surface)
+                        easy = self.Option("EASY", (200, 540), difficultyFont, self.surface)
+                        med = self.Option("MEDIUM", (184, 580), difficultyFont, self.surface)
+                        hard = self.Option("HARD", (197, 620), difficultyFont, self.surface)
                         diffi = 0
 
                         self.difficultyOptions = [easy,med,hard]
