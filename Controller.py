@@ -27,10 +27,13 @@ class Controller:
     enemyGroup = None
     
 
-    def __init__(self, w, h):
+    def __init__(self, w, h, difficulty):
         self.SCREEN_WIDTH = w
         self.SCREEN_HEIGHT = h
         self.SCREEN_SIZE = (self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
+        self.diff = difficulty
+        
+
 
         self.screen = pygame.display.set_mode(self.SCREEN_SIZE)
 
@@ -71,7 +74,9 @@ class Controller:
         self.bossGroup = pygame.sprite.RenderPlain(())
 
         enemyDeath = pygame.mixer.Sound("sounds/enemyDeath.wav")
-        #shipDeath = pygame.mixer.Sound("sounds/shipDeath.wav")
+        shipShieldDeath = pygame.mixer.Sound("sounds/shipShieldDeath.wav")
+        shipDeath = pygame.mixer.Sound("sounds/shipDeath.wav")
+        shipPowerUp = pygame.mixer.Sound("sounds/shipPowerUp.wav")
         bossFight = pygame.mixer.Sound("sounds/bossFight.wav")
 
         scoreFont = pygame.font.Font(None, 40)    
@@ -80,10 +85,10 @@ class Controller:
         pygame.time.set_timer(pygame.USEREVENT+2, 100)                  #Timer for background
         pygame.time.set_timer(pygame.USEREVENT+3, 300)                  #Timer for shooting
         pygame.time.set_timer(pygame.USEREVENT+4, 10)                   #Timer for moving
-        pygame.time.set_timer(pygame.USEREVENT+5, 500)                  #Timer for Enemy Shooting
-        pygame.time.set_timer(pygame.USEREVENT+6, 00)                  #Timer for enemy spawn
-        pygame.time.set_timer(pygame.USEREVENT+7, 2000)                #Timer for Power Up spawn
-        pygame.time.set_timer(pygame.USEREVENT, 2000)                 #Timer for boss spawn
+        pygame.time.set_timer(pygame.USEREVENT+5, self.diff)            #Timer for Enemy Shooting
+        pygame.time.set_timer(pygame.USEREVENT+6, self.diff)            #Timer for enemy spawn
+        pygame.time.set_timer(pygame.USEREVENT+7, 20000)                #Timer for Power Up spawn
+        pygame.time.set_timer(pygame.USEREVENT, 120000)                 #Timer for boss spawn
 
 
         while True:
@@ -112,7 +117,10 @@ class Controller:
                         if bulletList[x].team == 1 and pygame.sprite.collide_circle(self.ship, bulletList[x]):
                             bulletList[x].kill()
                             if not self.ship.invincible:
-                                #shipDeath.play()
+                                if self.ship.lives == 1:
+                                    shipDeath.play()
+                                else:
+                                    shipShieldDeath.play()
                                 self.ship.lives -= 1
                                 multiplier = 1
                                 self.ship.giveShield(2, 1)
@@ -145,6 +153,7 @@ class Controller:
                                     txtbx.draw(self.screen)
                                     # refresh the display
                                     pygame.display.flip()
+                                time.sleep(1)
                                 return "Exit"
                             
                 if event.type == USEREVENT+2:
@@ -157,7 +166,7 @@ class Controller:
                         if pygame.sprite.collide_circle(self.ship, powerUp[x]):
                             powerUp[x].power(self.ship)
                             powerUp[x].kill()
-                            
+                            shipPowerUp.play()
                     
                     self.shipGroup.update()
                     self.enemyGroup.update()
@@ -189,17 +198,11 @@ class Controller:
                     pygame.time.set_timer(pygame.USEREVENT, 0)
                 keys = pygame.key.get_pressed()
                 if keys[K_ESCAPE]:
-                    #pause = True
-                    #while pause == True:
                     pauseMenu = PauseMenu.Menu(self)
                     action = pauseMenu.pause(self)
                     if action != "Continue":
                         return action
-                        #pause = False
-                    
 
-
-            # else:
             if self.ship.invincible and time.time() - self.ship.invincTime >= self.ship.duration:
                 self.ship.switchIndex(0)
                 self.ship.invincible = False
