@@ -80,7 +80,7 @@ class Controller:
         pygame.time.set_timer(pygame.USEREVENT+4, 10)                   #Timer for moving
         pygame.time.set_timer(pygame.USEREVENT+5, 500)                  #Timer for Enemy Shooting
         pygame.time.set_timer(pygame.USEREVENT+6, 500)                  #Timer for enemy spawn
-        pygame.time.set_timer(pygame.USEREVENT+7, 2000)                #Timer for Power Up spawn
+        pygame.time.set_timer(pygame.USEREVENT+7, 20000)                #Timer for Power Up spawn
         pygame.time.set_timer(pygame.USEREVENT, 120000)                 #Timer for boss spawn
 
 

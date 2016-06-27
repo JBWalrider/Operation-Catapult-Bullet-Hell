@@ -17,7 +17,7 @@ class Menu:
             self.set_rect()
             self.draw()
             pygame.mixer.music.load("sounds/menuMusic.mp3")
-            pygame.mixer.music.play()
+            pygame.mixer.music.play(-1)
                 
         def draw(self):
             self.set_rend()
