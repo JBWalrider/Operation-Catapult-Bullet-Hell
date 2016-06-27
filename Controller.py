@@ -25,10 +25,13 @@ class Controller:
     enemyGroup = None
     
 
-    def __init__(self, w, h):
+    def __init__(self, w, h, difficulty):
         self.SCREEN_WIDTH = w
         self.SCREEN_HEIGHT = h
         self.SCREEN_SIZE = (self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
+        self.diff = difficulty
+        
+
 
         self.screen = pygame.display.set_mode(self.SCREEN_SIZE)
 
@@ -78,8 +81,8 @@ class Controller:
         pygame.time.set_timer(pygame.USEREVENT+2, 100)                  #Timer for background
         pygame.time.set_timer(pygame.USEREVENT+3, 300)                  #Timer for shooting
         pygame.time.set_timer(pygame.USEREVENT+4, 10)                   #Timer for moving
-        pygame.time.set_timer(pygame.USEREVENT+5, 500)                  #Timer for Enemy Shooting
-        pygame.time.set_timer(pygame.USEREVENT+6, 500)                  #Timer for enemy spawn
+        pygame.time.set_timer(pygame.USEREVENT+5, self.diff)            #Timer for Enemy Shooting
+        pygame.time.set_timer(pygame.USEREVENT+6, self.diff)            #Timer for enemy spawn
         pygame.time.set_timer(pygame.USEREVENT+7, 20000)                #Timer for Power Up spawn
         pygame.time.set_timer(pygame.USEREVENT, 120000)                 #Timer for boss spawn
 
