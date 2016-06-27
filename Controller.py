@@ -71,7 +71,6 @@ class Controller:
         bossFight = pygame.mixer.Sound("sounds/bossFight.wav")
 
         scoreFont = pygame.font.Font(None, 40)    
-        
 
         pygame.time.set_timer(pygame.USEREVENT+1, 50)                   #Timer for bullet
         pygame.time.set_timer(pygame.USEREVENT+2, 100)                  #Timer for background
@@ -79,7 +78,9 @@ class Controller:
         pygame.time.set_timer(pygame.USEREVENT+4, 10)                   #Timer for moving
         pygame.time.set_timer(pygame.USEREVENT+5, 500)                  #Timer for Enemy Shooting
         pygame.time.set_timer(pygame.USEREVENT+6, 500)                  #Timer for enemy spawn
-        pygame.time.set_timer(pygame.USEREVENT+7, 30000)                #Timer for Power Up spawn
+        pygame.time.set_timer(pygame.USEREVENT+7, 2000)                #Timer for Power Up spawn
+        pygame.time.set_timer(pygame.USEREVENT, 120000)                 #Timer for boss spawn
+
 
         while True:
             scRendered = scoreFont.render(str(sc), True, (150, 150, 255))
@@ -104,7 +105,7 @@ class Controller:
                                 #shipDeath.play()
                                 self.ship.lives -= 1
                                 multiplier = 1
-                                self.ship.giveShield(2)
+                                self.ship.giveShield(2, 1)
                            
                             if self.ship.lives <= 0:
                                 return "Exit"
@@ -138,9 +139,11 @@ class Controller:
                 if event.type == USEREVENT+7:
                     xcoord = randint(100, 400)
                     ycoord = randint(100, 450)
-                    pUp = PowerUp((xcoord, ycoord), 0)
+                    pType = randint(0, 2)
+                    pUp = PowerUp((xcoord, ycoord), pType)
                     self.powerUpGroup.add(pUp)
-                    print("PowerUp")
+                if event.type == USEREVENT:
+                    pass
                 keys = pygame.key.get_pressed()
                 if keys[K_ESCAPE]:
                     #pause = True
@@ -157,6 +160,8 @@ class Controller:
             if self.ship.invincible and time.time() - self.ship.invincTime >= self.ship.duration:
                 self.ship.switchIndex(0)
                 self.ship.invincible = False
+            if self.ship.shotNumber == 3 and time.time() - self.ship.triShotTime >= self.ship.duration1:
+                self.ship.changeShotSingle()
                 
             pygame.display.update()
 
