@@ -76,7 +76,7 @@ class Controller:
         pygame.time.set_timer(pygame.USEREVENT+4, 10)                   #Timer for moving
         pygame.time.set_timer(pygame.USEREVENT+5, 500)                  #Timer for Enemy Shooting
         pygame.time.set_timer(pygame.USEREVENT+6, 500)                  #Timer for enemy spawn
-        pygame.time.set_timer(pygame.USEREVENT+7, 30000)                #Timer for Power Up spawn
+        pygame.time.set_timer(pygame.USEREVENT+7, 2000)                #Timer for Power Up spawn
         pygame.time.set_timer(pygame.USEREVENT, 120000)                 #Timer for boss spawn
 
 
@@ -135,7 +135,7 @@ class Controller:
                     xcoord = randint(100, 400)
                     ycoord = randint(100, 450)
                     pType = randint(0, 2)
-                    pUp = PowerUp((xcoord, ycoord), 0)
+                    pUp = PowerUp((xcoord, ycoord), pType)
                     self.powerUpGroup.add(pUp)
                 if event.type == USEREVENT:
                     pass
