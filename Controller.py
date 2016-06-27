@@ -72,7 +72,7 @@ class Controller:
         enemyDeath = pygame.mixer.Sound("sounds/enemyDeath.wav")
         shipShieldDeath = pygame.mixer.Sound("sounds/shipShieldDeath.wav")
         shipDeath = pygame.mixer.Sound("sounds/shipDeath.wav")
-        shipPowerUp = pygame.mixer.Sound("sounds/shipPowerUp.wav")
+        #shipPowerUp = pygame.mixer.Sound("sounds/shipPowerUp.wav")
         bossFight = pygame.mixer.Sound("sounds/bossFight.wav")
 
         scoreFont = pygame.font.Font(None, 40)    
