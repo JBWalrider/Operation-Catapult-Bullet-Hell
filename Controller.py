@@ -7,7 +7,9 @@ from Enemy import *
 from random import randint
 import MainMenu
 import PauseMenu
+from ezText import eztext
 from PowerUp import *
+from Boss import *
 
 class Controller(pygame.sprite.Sprite):
 
@@ -46,12 +48,17 @@ class Controller(pygame.sprite.Sprite):
     def repaint(self):
         self.screen.fill((0, 0, 0))
         self.spaceGroup.draw(self.screen)
+        self.bossGroup.draw(self.screen)
         self.powerUpGroup.draw(self.screen)
         self.shipGroup.draw(self.screen)
         self.bulletGroup.draw(self.screen)
         self.enemyGroup.draw(self.screen)
+
         self.screen.blit(self.heartImage, (0,0))
              
+
+
+
     def shoot(self, b):
         self.bulletGroup.add(b)
     
@@ -76,6 +83,7 @@ class Controller(pygame.sprite.Sprite):
         self.bulletGroup = pygame.sprite.RenderPlain(()) 
         self.enemyGroup = pygame.sprite.RenderPlain(())
         self.powerUpGroup = pygame.sprite.RenderPlain(())
+        self.bossGroup = pygame.sprite.RenderPlain(())
 
         enemyDeath = pygame.mixer.Sound("sounds/enemyDeath.wav")
         shipShieldDeath = pygame.mixer.Sound("sounds/shipShieldDeath.wav")
@@ -106,7 +114,13 @@ class Controller(pygame.sprite.Sprite):
                     bulletList = self.bulletGroup.sprites()   
                     self.bulletGroup.update()
                     enemyList = self.enemyGroup.sprites()
+                    bossList = self.bossGroup.sprites()
                     for x in range(len(bulletList)):
+                        if bulletList[x].team == 0:
+                            for boss in bossList:
+                                if pygame.sprite.collide_circle(bulletList[x], boss):
+                                    if boss.loseHealth(1):
+                                        sc += 500*multiplier
                         for i in range(len(enemyList)):
                             if bulletList[x].team == 0 and pygame.sprite.collide_circle(bulletList[x], enemyList[i]):
                                 enemyDeath.play()
@@ -127,6 +141,33 @@ class Controller(pygame.sprite.Sprite):
                                 self.ship.giveShield(2, 1)
                            
                             if self.ship.lives <= 0:
+                                pygame.time.set_timer(pygame.USEREVENT+1, 0)                   #Timer for bullet
+                                pygame.time.set_timer(pygame.USEREVENT+2, 0)                  #Timer for background
+                                pygame.time.set_timer(pygame.USEREVENT+3, 0)                  #Timer for shooting
+                                pygame.time.set_timer(pygame.USEREVENT+4, 0)                   #Timer for moving
+                                pygame.time.set_timer(pygame.USEREVENT+5, 0)                  #Timer for Enemy Shooting
+                                pygame.time.set_timer(pygame.USEREVENT+6, 0)                  #Timer for enemy spawn
+                                pygame.time.set_timer(pygame.USEREVENT+7, 0)                #Timer for Power Up spawn
+                                pygame.time.set_timer(pygame.USEREVENT, 0)                 #Timer for boss spawn
+                                txtbx = eztext.Input(maxlength=3, color=(0,0,0), prompt='Nickname(?): ')
+                                while True:
+                                    events = pygame.event.get()
+                                    # process other events
+                                    for event in events:
+                                        # close it x button si pressed
+                                        if event.type == QUIT: return "Exit"
+
+                                    # clear the screen
+                                    self.screen.fill((255,255,255))
+                                    # update txtbx
+                                    s = txtbx.update(events)
+                                    if s != None:
+                                        print(s)
+                                        break
+                                    # blit txtbx on the sceen
+                                    txtbx.draw(self.screen)
+                                    # refresh the display
+                                    pygame.display.flip()
                                 time.sleep(1)
                                 return "Exit"
                             
@@ -144,10 +185,14 @@ class Controller(pygame.sprite.Sprite):
                     
                     self.shipGroup.update()
                     self.enemyGroup.update()
+                    self.bossGroup.update()
                 if event.type == USEREVENT+5:
                     enemyList = self.enemyGroup.sprites()
                     for i in range(len(enemyList)):
                         enemyList[i].shoot()
+                    bossList = self.bossGroup.sprites()
+                    for boss in bossList:
+                        boss.shoot()
                 if event.type == USEREVENT+6:
                     sType = randint(0, 1)
                     path = "images\\Enemy_" + str(sType) + ".png"
@@ -163,7 +208,9 @@ class Controller(pygame.sprite.Sprite):
                     pUp = PowerUp((xcoord, ycoord), pType)
                     self.powerUpGroup.add(pUp)
                 if event.type == USEREVENT:
-                    pass
+                    boss = Boss(0, self)
+                    self.bossGroup.add(boss)
+                    pygame.time.set_timer(pygame.USEREVENT, 0)
                 keys = pygame.key.get_pressed()
                 if keys[K_ESCAPE]:
                     pauseMenu = PauseMenu.Menu(self)
