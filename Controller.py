@@ -67,7 +67,9 @@ class Controller:
         self.powerUpGroup = pygame.sprite.RenderPlain(())
 
         enemyDeath = pygame.mixer.Sound("sounds/enemyDeath.wav")
-        #shipDeath = pygame.mixer.Sound("sounds/shipDeath.wav")
+        shipShieldDeath = pygame.mixer.Sound("sounds/shipShieldDeath.wav")
+        shipDeath = pygame.mixer.Sound("sounds/shipDeath.wav")
+        shipPowerUp = pygame.mixer.Sound("sounds/shipPowerUp.wav")
         bossFight = pygame.mixer.Sound("sounds/bossFight.wav")
 
         scoreFont = pygame.font.Font(None, 40)    
@@ -102,12 +104,16 @@ class Controller:
                         if bulletList[x].team == 1 and pygame.sprite.collide_circle(self.ship, bulletList[x]):
                             bulletList[x].kill()
                             if not self.ship.invincible:
-                                #shipDeath.play()
+                                if self.ship.lives == 1:
+                                    shipDeath.play()
+                                else:
+                                    shipShieldDeath.play()
                                 self.ship.lives -= 1
                                 multiplier = 1
                                 self.ship.giveShield(2, 1)
                            
                             if self.ship.lives <= 0:
+                                time.sleep(1)
                                 return "Exit"
                             
                 if event.type == USEREVENT+2:
@@ -120,7 +126,7 @@ class Controller:
                         if pygame.sprite.collide_circle(self.ship, powerUp[x]):
                             powerUp[x].power(self.ship)
                             powerUp[x].kill()
-                            
+                            shipPowerUp.play()
                     
                     self.shipGroup.update()
                     self.enemyGroup.update()
@@ -146,17 +152,11 @@ class Controller:
                     pass
                 keys = pygame.key.get_pressed()
                 if keys[K_ESCAPE]:
-                    #pause = True
-                    #while pause == True:
                     pauseMenu = PauseMenu.Menu(self)
                     action = pauseMenu.pause(self)
                     if action != "Continue":
                         return action
-                        #pause = False
-                    
 
-
-            # else:
             if self.ship.invincible and time.time() - self.ship.invincTime >= self.ship.duration:
                 self.ship.switchIndex(0)
                 self.ship.invincible = False
