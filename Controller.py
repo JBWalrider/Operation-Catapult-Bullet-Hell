@@ -25,11 +25,11 @@ class Controller:
     enemyGroup = None
     
 
-    def __init__(self, w, h, difficulty):
+    def __init__(self, w, h):
         self.SCREEN_WIDTH = w
         self.SCREEN_HEIGHT = h
         self.SCREEN_SIZE = (self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
-        self.diff = difficulty
+        self.diff = 0
         
 
 
@@ -51,6 +51,9 @@ class Controller:
     def shoot(self, b):
         self.bulletGroup.add(b)
     
+    def setdiff(self,diff):
+        self.diff = diff
+
     def start(self):    
         global pause 
         pause = False
