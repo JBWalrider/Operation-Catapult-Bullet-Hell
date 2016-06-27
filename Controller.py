@@ -44,16 +44,17 @@ class Controller:
         self.shipGroup.draw(self.screen)
         self.bulletGroup.draw(self.screen)
         self.enemyGroup.draw(self.screen)
-        
-
+             
     def shoot(self, b):
         self.bulletGroup.add(b)
-
+    
     def start(self):    
-        global pause  
+        global pause 
         pause = False
+        multiplier = 1
+        sc = 0
 
-        gameMusic = pygame.mixer.music.load("sounds/gameMusic.mp3")
+        pygame.mixer.music.load("sounds/gameMusic.mp3")
         pygame.mixer.music.play(-1) 
 
         self.scroll = ScrollScreen(self.SCREEN_HEIGHT)
@@ -69,6 +70,7 @@ class Controller:
         #shipDeath = pygame.mixer.Sound("sounds/shipDeath.wav")
         bossFight = pygame.mixer.Sound("sounds/bossFight.wav")
 
+        scoreFont = pygame.font.Font(None, 40)    
 
         pygame.time.set_timer(pygame.USEREVENT+1, 50)                   #Timer for bullet
         pygame.time.set_timer(pygame.USEREVENT+2, 100)                  #Timer for background
@@ -76,10 +78,12 @@ class Controller:
         pygame.time.set_timer(pygame.USEREVENT+4, 10)                   #Timer for moving
         pygame.time.set_timer(pygame.USEREVENT+5, 500)                  #Timer for Enemy Shooting
         pygame.time.set_timer(pygame.USEREVENT+6, 500)                  #Timer for enemy spawn
-        pygame.time.set_timer(pygame.USEREVENT+7, 30000)                #Timer for Power Up spawn
+        pygame.time.set_timer(pygame.USEREVENT+7, 2000)                #Timer for Power Up spawn
         pygame.time.set_timer(pygame.USEREVENT, 120000)                 #Timer for boss spawn
 
+
         while True:
+            scRendered = scoreFont.render(str(sc), True, (150, 150, 255))
             for event in pygame.event.get():
                 if event.type == QUIT:
                     return "Quit"
@@ -91,6 +95,8 @@ class Controller:
                         for i in range(len(enemyList)):
                             if bulletList[x].team == 0 and pygame.sprite.collide_circle(bulletList[x], enemyList[i]):
                                 enemyDeath.play()
+                                sc += 50*multiplier
+                                multiplier += 1
                                 enemyList[i].kill()
                                 bulletList[x].kill()
                         if bulletList[x].team == 1 and pygame.sprite.collide_circle(self.ship, bulletList[x]):
@@ -98,12 +104,12 @@ class Controller:
                             if not self.ship.invincible:
                                 #shipDeath.play()
                                 self.ship.lives -= 1
+                                multiplier = 1
                                 self.ship.giveShield(2, 1)
                            
                             if self.ship.lives <= 0:
                                 return "Exit"
                             
-                    
                 if event.type == USEREVENT+2:
                     self.spaceGroup.update()
                 if event.type == USEREVENT+3:
@@ -134,7 +140,7 @@ class Controller:
                     xcoord = randint(100, 400)
                     ycoord = randint(100, 450)
                     pType = randint(0, 2)
-                    pUp = PowerUp((xcoord, ycoord), 0)
+                    pUp = PowerUp((xcoord, ycoord), pType)
                     self.powerUpGroup.add(pUp)
                 if event.type == USEREVENT:
                     pass
@@ -160,3 +166,4 @@ class Controller:
             pygame.display.update()
 
             self.repaint()
+            self.screen.blit(scRendered, (500-scRendered.get_rect().right-2, 2))
