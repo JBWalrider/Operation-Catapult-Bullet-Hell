@@ -29,13 +29,13 @@ class Ship(pygame.sprite.Sprite):
     def update(self):        
         key = pygame.key.get_pressed()
         
-        if key[K_w]:
+        if key[K_w] or key[K_UP]:
             self.rect.centery += -2
-        if key[K_s]:
+        if key[K_s] or key[K_DOWN]:
             self.rect.centery += 2
-        if key[K_d]:
+        if key[K_d] or key[K_RIGHT]:
             self.rect.centerx += 2
-        if key[K_a]:
+        if key[K_a] or key[K_LEFT]:
             self.rect.centerx += -2
         if key[K_SPACE]:
             if self.canShoot:

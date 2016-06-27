@@ -1,6 +1,6 @@
 import MainMenu
 from Controller import *
 
-c = Controller(500, 700)
+c = Controller(500, 700, 750)
 menu = MainMenu.Menu(c)
 menu.start()
