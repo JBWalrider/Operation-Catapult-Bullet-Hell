@@ -44,17 +44,18 @@ class Controller:
         self.shipGroup.draw(self.screen)
         self.bulletGroup.draw(self.screen)
         self.enemyGroup.draw(self.screen)
-        
-
+             
     def shoot(self, b):
         self.bulletGroup.add(b)
-
+    
     def start(self):    
-        global pause  
+        global pause 
         pause = False
+        multiplier = 1
+        sc = 0
 
-        gameMusic = pygame.mixer.music.load("sounds/gameMusic.mp3")
-        #pygame.mixer.music.play(-1) 
+        pygame.mixer.music.load("sounds/gameMusic.mp3")
+        pygame.mixer.music.play(-1) 
 
         self.scroll = ScrollScreen(self.SCREEN_HEIGHT)
         self.ship = Ship(self.SCREEN_SIZE, self)
@@ -68,6 +69,8 @@ class Controller:
         enemyDeath = pygame.mixer.Sound("sounds/enemyDeath.wav")
         #shipDeath = pygame.mixer.Sound("sounds/shipDeath.wav")
         bossFight = pygame.mixer.Sound("sounds/bossFight.wav")
+
+        scoreFont = pygame.font.Font(None, 40)    
         
 
         pygame.time.set_timer(pygame.USEREVENT+1, 50)                   #Timer for bullet
@@ -79,6 +82,7 @@ class Controller:
         pygame.time.set_timer(pygame.USEREVENT+7, 30000)                #Timer for Power Up spawn
 
         while True:
+            scRendered = scoreFont.render(str(sc), True, (150, 150, 255))
             for event in pygame.event.get():
                 if event.type == QUIT:
                     return "Quit"
@@ -90,6 +94,8 @@ class Controller:
                         for i in range(len(enemyList)):
                             if bulletList[x].team == 0 and pygame.sprite.collide_circle(bulletList[x], enemyList[i]):
                                 enemyDeath.play()
+                                sc += 50*multiplier
+                                multiplier += 1
                                 enemyList[i].kill()
                                 bulletList[x].kill()
                         if bulletList[x].team == 1 and pygame.sprite.collide_circle(self.ship, bulletList[x]):
@@ -97,12 +103,12 @@ class Controller:
                             if not self.ship.invincible:
                                 #shipDeath.play()
                                 self.ship.lives -= 1
+                                multiplier = 1
                                 self.ship.giveShield(2)
                            
                             if self.ship.lives <= 0:
                                 return "Exit"
                             
-                    
                 if event.type == USEREVENT+2:
                     self.spaceGroup.update()
                 if event.type == USEREVENT+3:
@@ -155,3 +161,4 @@ class Controller:
             pygame.display.update()
 
             self.repaint()
+            self.screen.blit(scRendered, (500-scRendered.get_rect().right-2, 2))

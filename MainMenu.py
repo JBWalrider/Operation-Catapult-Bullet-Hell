@@ -16,7 +16,7 @@ class Menu:
             self.surface = surface
             self.set_rect()
             self.draw()
-            music = pygame.mixer.music.load("sounds/menuMusic.mp3")
+            pygame.mixer.music.load("sounds/menuMusic.mp3")
             pygame.mixer.music.play()
                 
         def draw(self):
@@ -61,7 +61,8 @@ class Menu:
                         action = self.c.start()
                         if action == "Exit":
                             self.repaint()
-                            pygame.mixer.music.play()
+                            pygame.mixer.music.load("sounds/menuMusic.mp3")
+                            pygame.mixer.music.play(-1)
                             continue
                         elif action == "Quit":
                             return
