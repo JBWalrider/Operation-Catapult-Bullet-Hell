@@ -27,4 +27,5 @@ class PowerUp(pygame.sprite.Sprite):
             ship.addLife()
         if self.pType == 2:
             ship.changeShotTri(10)
+        
             
