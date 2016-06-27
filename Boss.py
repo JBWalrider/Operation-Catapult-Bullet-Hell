@@ -12,10 +12,11 @@ class Boss(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.centerx = 250
         self.rect.centery = -50
-        self.health = 200
+        self.health = 100
         self.destY = 150
         self.dx = 1
         self.controller = c
+        self.radius = 70
 
     def spread(self):
         for i in range(-3, 4):

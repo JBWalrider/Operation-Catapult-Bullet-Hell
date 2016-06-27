@@ -48,8 +48,8 @@ class Controller(pygame.sprite.Sprite):
     def repaint(self):
         self.screen.fill((0, 0, 0))
         self.spaceGroup.draw(self.screen)
-        self.bossGroup.draw(self.screen)
         self.powerUpGroup.draw(self.screen)
+        self.bossGroup.draw(self.screen)
         self.shipGroup.draw(self.screen)
         self.bulletGroup.draw(self.screen)
         self.enemyGroup.draw(self.screen)
@@ -99,14 +99,15 @@ class Controller(pygame.sprite.Sprite):
         pygame.time.set_timer(pygame.USEREVENT+4, 10)                   #Timer for moving
         pygame.time.set_timer(pygame.USEREVENT+5, self.diff)                  #Timer for Enemy Shooting
         pygame.time.set_timer(pygame.USEREVENT+6, self.diff)                  #Timer for enemy spawn
-        pygame.time.set_timer(pygame.USEREVENT+7, 2000)                #Timer for Power Up spawn
-        pygame.time.set_timer(pygame.USEREVENT, 120000)                 #Timer for boss spawn
+        pygame.time.set_timer(pygame.USEREVENT+7, 20000)                #Timer for Power Up spawn
+        pygame.time.set_timer(pygame.USEREVENT, 30000)                 #Timer for boss spawn
 
 
         while True:
             heartNumber = self.ship.lives - 1
             self.heartImage = self.heartList[heartNumber]
             scRendered = scoreFont.render(str(sc), True, (150, 150, 255))
+            mtRendered = scoreFont.render("X" + str(multiplier), True, (150, 150, 255))
             for event in pygame.event.get():
                 if event.type == QUIT:
                     return "Quit"
@@ -119,8 +120,13 @@ class Controller(pygame.sprite.Sprite):
                         if bulletList[x].team == 0:
                             for boss in bossList:
                                 if pygame.sprite.collide_circle(bulletList[x], boss):
+                                    bulletList[x].kill()
                                     if boss.loseHealth(1):
                                         sc += 500*multiplier
+                                        boss.kill()
+                                        pygame.time.set_timer(pygame.USEREVENT+6, self.diff) 
+
+                                        
                         for i in range(len(enemyList)):
                             if bulletList[x].team == 0 and pygame.sprite.collide_circle(bulletList[x], enemyList[i]):
                                 enemyDeath.play()
@@ -210,7 +216,8 @@ class Controller(pygame.sprite.Sprite):
                 if event.type == USEREVENT:
                     boss = Boss(0, self)
                     self.bossGroup.add(boss)
-                    pygame.time.set_timer(pygame.USEREVENT, 0)
+                    pygame.time.set_timer(pygame.USEREVENT+6, 0)
+
                 keys = pygame.key.get_pressed()
                 if keys[K_ESCAPE]:
                     pauseMenu = PauseMenu.Menu(self)
@@ -228,3 +235,4 @@ class Controller(pygame.sprite.Sprite):
 
             self.repaint()
             self.screen.blit(scRendered, (500-scRendered.get_rect().right-2, 2))
+            self.screen.blit(mtRendered, (500-mtRendered.get_rect().right-2, 28))
