@@ -9,7 +9,7 @@ import MainMenu
 import PauseMenu
 from PowerUp import *
 
-class Controller:
+class Controller(pygame.sprite.Sprite):
 
     SCREEN_WIDTH = None
     SCREEN_HEIGHT = None
@@ -26,6 +26,9 @@ class Controller:
     
 
     def __init__(self, w, h, difficulty):
+        super().__init__()
+        self.heartList = (pygame.image.load("images\\Heart_1.png"), pygame.image.load("images\\Heart_2.png"), pygame.image.load("images\\Heart_3.png"))
+        self.heartImage = self.heartList[2]
         self.SCREEN_WIDTH = w
         self.SCREEN_HEIGHT = h
         self.SCREEN_SIZE = (self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
@@ -47,6 +50,7 @@ class Controller:
         self.shipGroup.draw(self.screen)
         self.bulletGroup.draw(self.screen)
         self.enemyGroup.draw(self.screen)
+        self.screen.blit(self.heartImage, (0,0))
              
     def shoot(self, b):
         self.bulletGroup.add(b)
@@ -56,6 +60,10 @@ class Controller:
         pause = False
         multiplier = 1
         sc = 0
+        
+        
+        
+
 
         pygame.mixer.music.load("sounds/gameMusic.mp3")
         pygame.mixer.music.play(-1) 
@@ -81,13 +89,15 @@ class Controller:
         pygame.time.set_timer(pygame.USEREVENT+2, 100)                  #Timer for background
         pygame.time.set_timer(pygame.USEREVENT+3, 300)                  #Timer for shooting
         pygame.time.set_timer(pygame.USEREVENT+4, 10)                   #Timer for moving
-        pygame.time.set_timer(pygame.USEREVENT+5, self.diff)            #Timer for Enemy Shooting
-        pygame.time.set_timer(pygame.USEREVENT+6, self.diff)            #Timer for enemy spawn
-        pygame.time.set_timer(pygame.USEREVENT+7, 20000)                #Timer for Power Up spawn
+        pygame.time.set_timer(pygame.USEREVENT+5, self.diff)                  #Timer for Enemy Shooting
+        pygame.time.set_timer(pygame.USEREVENT+6, self.diff)                  #Timer for enemy spawn
+        pygame.time.set_timer(pygame.USEREVENT+7, 2000)                #Timer for Power Up spawn
         pygame.time.set_timer(pygame.USEREVENT, 120000)                 #Timer for boss spawn
 
 
         while True:
+            heartNumber = self.ship.lives - 1
+            self.heartImage = self.heartList[heartNumber]
             scRendered = scoreFont.render(str(sc), True, (150, 150, 255))
             for event in pygame.event.get():
                 if event.type == QUIT:
@@ -112,6 +122,7 @@ class Controller:
                                 else:
                                     shipShieldDeath.play()
                                 self.ship.lives -= 1
+                                heartNumber -= 1
                                 multiplier = 1
                                 self.ship.giveShield(2, 1)
                            
@@ -129,7 +140,7 @@ class Controller:
                         if pygame.sprite.collide_circle(self.ship, powerUp[x]):
                             powerUp[x].power(self.ship)
                             powerUp[x].kill()
-                            shipPowerUp.play()
+                            #shipPowerUp.play()
                     
                     self.shipGroup.update()
                     self.enemyGroup.update()
