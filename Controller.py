@@ -51,7 +51,7 @@ class Controller(pygame.sprite.Sprite):
         self.shipGroup.draw(self.screen)
         self.bulletGroup.draw(self.screen)
         self.enemyGroup.draw(self.screen)
-        self.screen.blit(self.heartImage, (0,0))
+        
 
 
     def shoot(self, b):
