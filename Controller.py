@@ -82,7 +82,7 @@ class Controller(pygame.sprite.Sprite):
         enemyDeath = pygame.mixer.Sound("sounds/enemyDeath.wav")
         shipShieldDeath = pygame.mixer.Sound("sounds/shipShieldDeath.wav")
         shipDeath = pygame.mixer.Sound("sounds/shipDeath.wav")
-        shipPowerUp = pygame.mixer.Sound("sounds/shipPowerUp.wav")
+        # shipPowerUp = pygame.mixer.Sound("sounds/shipPowerUp.wav")
         bossFight = pygame.mixer.Sound("sounds/bossFight.wav")
 
         scoreFont = pygame.font.Font(None, 40)    
@@ -160,6 +160,25 @@ class Controller(pygame.sprite.Sprite):
                                     # update txtbx
                                     s = txtbx.update(events)
                                     if s != None:
+                                        if self.diff == 1000:
+                                            # f = open("outputs\\Easy.txt", "r+")
+                                            # lines = f.readlines()
+                                            # inserted = False
+                                            # for line in lines:
+                                            #     if inserted:
+                                            #         break
+                                            #     for i in line:
+                                            #         value = 0
+                                            #         if i == "\t":
+                                            #             value = int(line[i:])
+                                            #             if sc > value:
+                                            #                 newScore = s + "\t" + str(sc) + "\n"
+                                            #                 lines.insert(i, newScore)
+                                            #                 inserted = True
+                                            # f.seek(0)
+                                            # for line in lines:
+                                            #     f.write(line)
+                                            # f.close()
                                         print(s)
                                         break
                                     # blit txtbx on the sceen
