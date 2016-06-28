@@ -178,7 +178,7 @@ class Controller(pygame.sprite.Sprite):
                         if pygame.sprite.collide_circle(self.ship, powerUp[x]):
                             powerUp[x].power(self.ship)
                             powerUp[x].kill()
-                            #shipPowerUp.play()
+                            shipPowerUp.play()
                     
                     self.shipGroup.update()
                     self.enemyGroup.update()
