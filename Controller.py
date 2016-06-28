@@ -26,18 +26,15 @@ class Controller(pygame.sprite.Sprite):
     bulletGroup = None
     enemyGroup = None
     
-
-    def __init__(self, w, h, difficulty):
+    def __init__(self, w, h):
         super().__init__()
         self.heartList = (pygame.image.load("images\\Heart_1.png"), pygame.image.load("images\\Heart_2.png"), pygame.image.load("images\\Heart_3.png"))
         self.heartImage = self.heartList[2]
         self.SCREEN_WIDTH = w
         self.SCREEN_HEIGHT = h
         self.SCREEN_SIZE = (self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
-        self.diff = difficulty
+        self.diff = 0
         
-
-
         self.screen = pygame.display.set_mode(self.SCREEN_SIZE)
 
         pygame.display.set_caption("Bullet Hell")
@@ -54,25 +51,21 @@ class Controller(pygame.sprite.Sprite):
         self.shipGroup.draw(self.screen)
         self.bulletGroup.draw(self.screen)
         self.enemyGroup.draw(self.screen)
-
-        
-             
-
+        self.screen.blit(self.heartImage, (0,0))
 
 
     def shoot(self, b):
         self.bulletGroup.add(b)
     
+    def setdiff(self,diff):
+        self.diff = diff
+
     def start(self):    
         global pause 
         pause = False
         multiplier = 1
         sc = 0
-        
-        
-        
-
-
+        pygame.mixer.stop()
         pygame.mixer.music.load("sounds/gameMusic.mp3")
         pygame.mixer.music.play(-1) 
 
@@ -89,7 +82,7 @@ class Controller(pygame.sprite.Sprite):
         enemyDeath = pygame.mixer.Sound("sounds/enemyDeath.wav")
         shipShieldDeath = pygame.mixer.Sound("sounds/shipShieldDeath.wav")
         shipDeath = pygame.mixer.Sound("sounds/shipDeath.wav")
-        #shipPowerUp = pygame.mixer.Sound("sounds/shipPowerUp.wav")
+        shipPowerUp = pygame.mixer.Sound("sounds/shipPowerUp.wav")
         bossFight = pygame.mixer.Sound("sounds/bossFight.wav")
 
         scoreFont = pygame.font.Font(None, 40)    
@@ -98,12 +91,11 @@ class Controller(pygame.sprite.Sprite):
         pygame.time.set_timer(pygame.USEREVENT+2, 100)                  #Timer for background
         pygame.time.set_timer(pygame.USEREVENT+3, 300)                  #Timer for shooting
         pygame.time.set_timer(pygame.USEREVENT+4, 10)                   #Timer for moving
-        pygame.time.set_timer(pygame.USEREVENT+5, self.diff)                  #Timer for Enemy Shooting
-        pygame.time.set_timer(pygame.USEREVENT+6, self.diff)                  #Timer for enemy spawn
+        pygame.time.set_timer(pygame.USEREVENT+5, self.diff)            #Timer for Enemy Shooting
+        pygame.time.set_timer(pygame.USEREVENT+6, self.diff)            #Timer for enemy spawn
         pygame.time.set_timer(pygame.USEREVENT+7, 20000)                #Timer for Power Up spawn
         pygame.time.set_timer(pygame.USEREVENT, 120000)                 #Timer for boss spawn
-
-
+       
         while True:
             heartNumber = self.ship.lives - 1
             self.heartImage = self.heartList[heartNumber]
@@ -126,8 +118,7 @@ class Controller(pygame.sprite.Sprite):
                                         sc += 500*multiplier
                                         boss.kill()
                                         pygame.time.set_timer(pygame.USEREVENT+6, self.diff) 
-
-                                        
+    
                         for i in range(len(enemyList)):
                             if bulletList[x].team == 0 and pygame.sprite.collide_circle(bulletList[x], enemyList[i]):
                                 enemyDeath.play()
