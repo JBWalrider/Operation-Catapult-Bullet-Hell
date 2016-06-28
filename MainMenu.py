@@ -64,7 +64,7 @@ class Menu:
                         diffi = 0
 
                         self.difficultyOptions = [easy,med,hard]
-                        self.difficultyScreen = pygame.image.load("images/Difficulty.png")
+                        self.difficultyScreen = pygame.image.load("images/Title.png")
                         self.difficultyScreen.convert()
                         self.surface.blit(self.difficultyScreen, (0, 0))
                         difficult = True     
