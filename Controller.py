@@ -47,11 +47,12 @@ class Controller(pygame.sprite.Sprite):
         self.spaceGroup.draw(self.screen)
         self.powerUpGroup.draw(self.screen)
         self.bossGroup.draw(self.screen)
+        self.screen.blit(self.heartImage, (0,0))
         self.shipGroup.draw(self.screen)
         self.bulletGroup.draw(self.screen)
         self.enemyGroup.draw(self.screen)
+        
 
-        self.screen.blit(self.heartImage, (0,0))
 
     def shoot(self, b):
         self.bulletGroup.add(b)
@@ -78,11 +79,11 @@ class Controller(pygame.sprite.Sprite):
         self.powerUpGroup = pygame.sprite.RenderPlain(())
         self.bossGroup = pygame.sprite.RenderPlain(())
 
-        enemyDeath = pygame.mixer.Sound("sounds/enemyDeath.wav")
-        shipShieldDeath = pygame.mixer.Sound("sounds/shipShieldDeath.wav")
-        shipDeath = pygame.mixer.Sound("sounds/shipDeath.wav")
-        shipPowerUp = pygame.mixer.Sound("sounds/shipPowerUp.wav")
-        bossFight = pygame.mixer.Sound("sounds/bossFight.wav")
+        enemyDeath = pygame.mixer.Sound("sounds\\enemyDeath.wav")
+        shipShieldDeath = pygame.mixer.Sound("sounds\\shipShieldDeath.wav")
+        shipDeath = pygame.mixer.Sound("sounds\\shipDeath.wav")
+        #shipPowerUp = pygame.mixer.Sound("sounds\\shipPowerUp.wav")
+        bossFight = pygame.mixer.Sound("sounds\\bossFight.wav")
 
         scoreFont = pygame.font.Font(None, 40)    
 
@@ -93,8 +94,8 @@ class Controller(pygame.sprite.Sprite):
         pygame.time.set_timer(pygame.USEREVENT+5, self.diff)            #Timer for Enemy Shooting
         pygame.time.set_timer(pygame.USEREVENT+6, self.diff)            #Timer for enemy spawn
         pygame.time.set_timer(pygame.USEREVENT+7, 20000)                #Timer for Power Up spawn
-        pygame.time.set_timer(pygame.USEREVENT, 30000)                  #Timer for boss spawn
-
+        pygame.time.set_timer(pygame.USEREVENT, 120000)                 #Timer for boss spawn
+       
         while True:
             heartNumber = self.ship.lives - 1
             self.heartImage = self.heartList[heartNumber]
