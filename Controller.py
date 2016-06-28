@@ -50,11 +50,12 @@ class Controller(pygame.sprite.Sprite):
         self.spaceGroup.draw(self.screen)
         self.powerUpGroup.draw(self.screen)
         self.bossGroup.draw(self.screen)
+        self.screen.blit(self.heartImage, (0,0))
         self.shipGroup.draw(self.screen)
         self.bulletGroup.draw(self.screen)
         self.enemyGroup.draw(self.screen)
 
-        self.screen.blit(self.heartImage, (0,0))
+        
              
 
 
@@ -100,7 +101,7 @@ class Controller(pygame.sprite.Sprite):
         pygame.time.set_timer(pygame.USEREVENT+5, self.diff)                  #Timer for Enemy Shooting
         pygame.time.set_timer(pygame.USEREVENT+6, self.diff)                  #Timer for enemy spawn
         pygame.time.set_timer(pygame.USEREVENT+7, 20000)                #Timer for Power Up spawn
-        pygame.time.set_timer(pygame.USEREVENT, 30000)                 #Timer for boss spawn
+        pygame.time.set_timer(pygame.USEREVENT, 120000)                 #Timer for boss spawn
 
 
         while True:
