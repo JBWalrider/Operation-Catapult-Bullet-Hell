@@ -147,7 +147,7 @@ class Controller(pygame.sprite.Sprite):
                                 pygame.time.set_timer(pygame.USEREVENT+6, 0)                  #Timer for enemy spawn
                                 pygame.time.set_timer(pygame.USEREVENT+7, 0)                #Timer for Power Up spawn
                                 pygame.time.set_timer(pygame.USEREVENT, 0)                 #Timer for boss spawn
-                                txtbx = eztext.Input(maxlength=3, color=(0,0,0), prompt='Nickname(?): ')
+                                txtbx = eztext.Input(maxlength=25, color=(0,0,0), prompt='Enter name: ')
                                 while True:
                                     events = pygame.event.get()
                                     # process other events
@@ -160,8 +160,8 @@ class Controller(pygame.sprite.Sprite):
                                     # update txtbx
                                     s = txtbx.update(events)
                                     if s != None:
+                                        string = str(sc) + "\t" + s + "\n"
                                         if self.diff == 1000:
-                                            string = s + str(sc) + "\n"
                                             inputPath = "outputs\\Easy.txt"
                                             outputPath = "outputs\\Easy_New.txt"
                                             File = open(inputPath, 'r')
@@ -171,7 +171,7 @@ class Controller(pygame.sprite.Sprite):
                                                 if not inserted:
                                                     for i in range(len(line)):
                                                         if line[i] == "\t":
-                                                            value = int(line[i+1:])
+                                                            value = int(line[:i])
                                                             if value < sc:
                                                                 outputFile.write(string)
                                                                 inserted = True
@@ -182,7 +182,6 @@ class Controller(pygame.sprite.Sprite):
                                             os.remove(inputPath)
                                             os.rename(outputPath, inputPath)
                                         elif self.diff == 750:
-                                            string = s + str(sc) + "\n"
                                             inputPath = "outputs\\Medium.txt"
                                             outputPath = "outputs\\Medium_New.txt"
                                             File = open(inputPath, 'r')
@@ -192,7 +191,7 @@ class Controller(pygame.sprite.Sprite):
                                                 if not inserted:
                                                     for i in range(len(line)):
                                                         if line[i] == "\t":
-                                                            value = int(line[i+1:])
+                                                            value = int(line[:i])
                                                             if value < sc:
                                                                 outputFile.write(string)
                                                                 inserted = True
@@ -203,7 +202,6 @@ class Controller(pygame.sprite.Sprite):
                                             os.remove(inputPath)
                                             os.rename(outputPath, inputPath)
                                         elif self.diff == 500:
-                                            string = s + str(sc) + "\n"
                                             inputPath = "outputs\\Hard.txt"
                                             outputPath = "outputs\\Hard_New.txt"
                                             File = open(inputPath, 'r')
@@ -213,7 +211,7 @@ class Controller(pygame.sprite.Sprite):
                                                 if not inserted:
                                                     for i in range(len(line)):
                                                         if line[i] == "\t":
-                                                            value = int(line[i+1:])
+                                                            value = int(line[:i])
                                                             if value < sc:
                                                                 outputFile.write(string)
                                                                 inserted = True
