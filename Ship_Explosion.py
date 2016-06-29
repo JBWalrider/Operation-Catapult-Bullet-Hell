@@ -5,5 +5,5 @@ class Ship_Explosion(pygame.sprite.Sprite):
         self.rect.center = pos
         
     def update(self):
-        #implement timer, have self.kill() after 1-2 seconds
-            exit() #if player dies, game over. Go to aftergame (play again, quit)
+        time.sleep(1)    
+            exit()

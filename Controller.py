@@ -61,10 +61,13 @@ class Controller(pygame.sprite.Sprite):
         self.diff = diff
 
     def start(self):    
-        global pause 
+        global pause
+        count = 0
         pause = False
         multiplier = 1
         gCount = 0
+        walrider = False
+        walr = ""
         sc = 0
         pygame.mixer.stop()
         pygame.mixer.music.load("sounds/gameMusic.mp3")
@@ -277,7 +280,7 @@ class Controller(pygame.sprite.Sprite):
                     if event.key == K_w and gCount == 0:
                         gCount = 1
                     if event.key == K_a and gCount == 1:
-                        gCount = 2
+                        gCount = 2]
                     if event.key == K_l and gCount == 2:
                         gCount = 3
                     if event.key == K_r and gCount == 3:
@@ -289,9 +292,8 @@ class Controller(pygame.sprite.Sprite):
                     if event.key == K_e and gCount == 6:
                         gCount = 7
                     if event.key == K_r and gCount == 7:
-                        sc = 99999999999999999999
+                        sc = 999999999999999
                         gCount = 8
-
                 keys = pygame.key.get_pressed()
                 if keys[K_ESCAPE]:
                     pauseMenu = PauseMenu.Menu(self)
