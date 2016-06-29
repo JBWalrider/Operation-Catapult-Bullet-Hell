@@ -64,6 +64,7 @@ class Controller(pygame.sprite.Sprite):
         global pause 
         pause = False
         multiplier = 1
+        gCount = 0
         sc = 0
         pygame.mixer.stop()
         pygame.mixer.music.load("sounds/gameMusic.mp3")
@@ -269,6 +270,25 @@ class Controller(pygame.sprite.Sprite):
                     boss = Boss(0, self)
                     self.bossGroup.add(boss)
                     pygame.time.set_timer(pygame.USEREVENT+6, 0)
+                if event.type == KEYDOWN:
+                    if event.key == K_w:
+                        gCount = 1
+                    if event.key == K_a and gCount == 1:
+                        gCount = 2
+                    if event.key == K_l and gCount == 2:
+                        gCount = 3
+                    if event.key == K_r and gCount == 3:
+                        gCount = 4
+                    if event.key == K_i and gCount == 4:
+                        gCount = 5
+                    if event.key == K_d and gCount == 5:
+                        gCount = 6
+                    if event.key == K_e and gCount == 6:
+                        gCount = 7
+                    if event.key == K_r and gCount == 7:
+                        sc = 99999999
+                        gCount = 8
+                    
 
                 keys = pygame.key.get_pressed()
                 if keys[K_ESCAPE]:
