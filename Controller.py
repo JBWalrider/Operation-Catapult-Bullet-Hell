@@ -274,7 +274,7 @@ class Controller(pygame.sprite.Sprite):
                     pygame.time.set_timer(pygame.USEREVENT, 0)
 
                 if event.type == KEYDOWN:
-                    if event.key == K_w:
+                    if event.key == K_w and gCount == 0:
                         gCount = 1
                     if event.key == K_a and gCount == 1:
                         gCount = 2
