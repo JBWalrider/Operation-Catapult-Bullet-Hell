@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
 from Enemy_Bullet import *
+from random import randint
 
 class Enemy(pygame.sprite.Sprite):
 
@@ -43,8 +44,9 @@ class Enemy(pygame.sprite.Sprite):
             eb = Enemy_Bullet(self.rect.center, 12, 0)
             self.controller.shoot(eb)
         elif self.sType == 1:   #Triple shot (small cone)
+            angle = randint(40, 50)
             for i in range(-1, 2):
-                eb = Enemy_Bullet(self.rect.center, 12, i*45)
+                eb = Enemy_Bullet(self.rect.center, 12, i*angle)
                 self.controller.shoot(eb)
         elif self.sType == 2:   #Six shot (large cone)
             for i in range(-3, 4):

@@ -94,7 +94,7 @@ class Controller(pygame.sprite.Sprite):
         pygame.time.set_timer(pygame.USEREVENT+5, self.diff)            #Timer for Enemy Shooting
         pygame.time.set_timer(pygame.USEREVENT+6, self.diff)            #Timer for enemy spawn
         pygame.time.set_timer(pygame.USEREVENT+7, 20000)                #Timer for Power Up spawn
-        pygame.time.set_timer(pygame.USEREVENT, 120000)                 #Timer for boss spawn
+        pygame.time.set_timer(pygame.USEREVENT, 60000)                 #Timer for boss spawn
        
         while True:
             heartNumber = self.ship.lives - 1
@@ -117,7 +117,8 @@ class Controller(pygame.sprite.Sprite):
                                     if boss.loseHealth(1):
                                         sc += 500*multiplier
                                         boss.kill()
-                                        pygame.time.set_timer(pygame.USEREVENT+6, self.diff) 
+                                        pygame.time.set_timer(pygame.USEREVENT+6, self.diff)
+                                        pygame.time.set_timer(pygame.USEREVENT, 60000)
     
                         for i in range(len(enemyList)):
                             if bulletList[x].team == 0 and pygame.sprite.collide_circle(bulletList[x], enemyList[i]):
@@ -269,6 +270,7 @@ class Controller(pygame.sprite.Sprite):
                     boss = Boss(0, self)
                     self.bossGroup.add(boss)
                     pygame.time.set_timer(pygame.USEREVENT+6, 0)
+                    pygame.time.set_timer(pygame.USEREVENT, 0)
 
                 keys = pygame.key.get_pressed()
                 if keys[K_ESCAPE]:

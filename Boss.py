@@ -29,9 +29,17 @@ class Boss(pygame.sprite.Sprite):
             self.controller.shoot(eb)
     
     def hardShot(self):
-        x = math.degrees(math.atan(40/500))
+        x = math.degrees(math.atan(33/650))
         for i in range(-7, 7):
             eb = Enemy_Bullet(self.rect.center, 12, x + 2*i*x)
+            self.controller.shoot(eb)
+
+    def randomShot(self):
+        startAngle = -50
+        for i in range(-7, 7):
+            rand = randint(3, 9)
+            startAngle += rand
+            eb = Enemy_Bullet(self.rect.center, 12, startAngle)
             self.controller.shoot(eb)
 
     def loseHealth(self, damage):
@@ -42,7 +50,7 @@ class Boss(pygame.sprite.Sprite):
             return False
 
     def shoot(self):
-        attack = randint(0, 2)
+        attack = randint(0, 3)
         if attack == 0:
             self.hardShot()
         elif attack == 1:
@@ -50,6 +58,8 @@ class Boss(pygame.sprite.Sprite):
         elif attack == 2:
             self.alternatingSpread(-20)
             self.alternatingSpread(20)
+        elif attack == 3:
+            self.randomShot()
             
     def update(self):
         if self.rect.centery == self.destY:
