@@ -1,1 +1,2 @@
-TXT	0
+sad		1050
+SAMPLE	0

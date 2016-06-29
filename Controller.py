@@ -1,4 +1,4 @@
-import pygame, time
+import pygame, time, os
 from pygame.locals import *
 from Ship import *
 from Bullet import *
@@ -161,25 +161,68 @@ class Controller(pygame.sprite.Sprite):
                                     s = txtbx.update(events)
                                     if s != None:
                                         if self.diff == 1000:
-                                            # f = open("outputs\\Easy.txt", "r+")
-                                            # lines = f.readlines()
-                                            # inserted = False
-                                            # for line in lines:
-                                            #     if inserted:
-                                            #         break
-                                            #     for i in line:
-                                            #         value = 0
-                                            #         if i == "\t":
-                                            #             value = int(line[i:])
-                                            #             if sc > value:
-                                            #                 newScore = s + "\t" + str(sc) + "\n"
-                                            #                 lines.insert(i, newScore)
-                                            #                 inserted = True
-                                            # f.seek(0)
-                                            # for line in lines:
-                                            #     f.write(line)
-                                            # f.close()
-                                        print(s)
+                                            string = s + str(sc) + "\n"
+                                            inputPath = "outputs\\Easy.txt"
+                                            outputPath = "outputs\\Easy_New.txt"
+                                            File = open(inputPath, 'r')
+                                            outputFile = open(outputPath, "w")
+                                            inserted = False
+                                            for line in File:
+                                                if not inserted:
+                                                    for i in range(len(line)):
+                                                        if line[i] == "\t":
+                                                            value = int(line[i+1:])
+                                                            if value < sc:
+                                                                outputFile.write(string)
+                                                                inserted = True
+                                                outputFile.write(line)
+
+                                            File.close()
+                                            outputFile.close()
+                                            os.remove(inputPath)
+                                            os.rename(outputPath, inputPath)
+                                        elif self.diff == 750:
+                                            string = s + str(sc) + "\n"
+                                            inputPath = "outputs\\Medium.txt"
+                                            outputPath = "outputs\\Medium_New.txt"
+                                            File = open(inputPath, 'r')
+                                            outputFile = open(outputPath, "w")
+                                            inserted = False
+                                            for line in File:
+                                                if not inserted:
+                                                    for i in range(len(line)):
+                                                        if line[i] == "\t":
+                                                            value = int(line[i+1:])
+                                                            if value < sc:
+                                                                outputFile.write(string)
+                                                                inserted = True
+                                                outputFile.write(line)
+
+                                            File.close()
+                                            outputFile.close()
+                                            os.remove(inputPath)
+                                            os.rename(outputPath, inputPath)
+                                        elif self.diff == 500:
+                                            string = s + str(sc) + "\n"
+                                            inputPath = "outputs\\Hard.txt"
+                                            outputPath = "outputs\\Hard_New.txt"
+                                            File = open(inputPath, 'r')
+                                            outputFile = open(outputPath, "w")
+                                            inserted = False
+                                            for line in File:
+                                                if not inserted:
+                                                    for i in range(len(line)):
+                                                        if line[i] == "\t":
+                                                            value = int(line[i+1:])
+                                                            if value < sc:
+                                                                outputFile.write(string)
+                                                                inserted = True
+                                                outputFile.write(line)
+
+                                            File.close()
+                                            outputFile.close()
+                                            os.remove(inputPath)
+                                            os.rename(outputPath, inputPath)
                                         break
                                     # blit txtbx on the sceen
                                     txtbx.draw(self.screen)
