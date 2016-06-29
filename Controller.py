@@ -289,7 +289,7 @@ class Controller(pygame.sprite.Sprite):
                     if event.key == K_e and gCount == 6:
                         gCount = 7
                     if event.key == K_r and gCount == 7:
-                        sc = 9999999999
+                        sc = 9999999999999999999999999999999
                         gCount = 8
 
                 keys = pygame.key.get_pressed()
