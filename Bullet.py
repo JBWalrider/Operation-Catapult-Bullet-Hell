@@ -21,3 +21,4 @@ class Bullet(pygame.sprite.Sprite):
 
     def draw(self, surf):
         pygame.draw.rect(surf, [000, 255, 000], self.rect, 0)
+

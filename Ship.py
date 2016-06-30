@@ -3,7 +3,6 @@ from pygame.locals import *
 from Bullet import *
 from Enemy_Bullet import *
 
-
 class Ship(pygame.sprite.Sprite):
     canShoot = False
     drawBullet = False
@@ -24,11 +23,10 @@ class Ship(pygame.sprite.Sprite):
         self.lives = 3
         self.invincible = False
         self.invincTime = 0
-        self.shotNumber = 1
+        self.shotNumber = 1 #how many shots it can shoot (for trishot powerup)
    
     def update(self):        
         key = pygame.key.get_pressed()
-        
         if key[K_w] or key[K_UP]:
             self.rect.centery += -2
         if key[K_s] or key[K_DOWN]:
@@ -52,7 +50,6 @@ class Ship(pygame.sprite.Sprite):
                     self.controller.shoot(b3)
                     self.canShoot = False
 
-    
         if self.rect.centerx > self.screenWidth-self.offset:
             self.rect.centerx = self.screenWidth-self.offset
         if self.rect.centerx < self.offset:
@@ -65,22 +62,28 @@ class Ship(pygame.sprite.Sprite):
     def draw(self, surf):
         pygame.draw.rect(surf, [255, 000, 000], self.rect, 0)
 
-
-    def switchIndex(self, index):
+    def switchIndex(self, index): #switch between regular and shield sprites
         self.imageIndex = index
         self.image = self.imageList[self.imageIndex]
 
-    def giveShield(self, duration, cType):
+    def giveShield(self, duration, shType): #shield type
         self.invincTime =  time.time()
         self.invincible = True
         self.duration = duration
-        self.switchIndex(cType)
+        self.switchIndex(shType)
+
+    def loseLife(self):
+        self.lives -= 1
+    
     def addLife(self):
         self.lives = 3
+
     def changeShotTri(self, duration):
         self.triShotTime = time.time()
         self.shotNumber = 3
         self.duration1 = duration
+        #duration1 is for powerups, duration is for invincibility period
+
     def changeShotSingle(self):
         self.shotNumber = 1
 

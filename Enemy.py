@@ -5,9 +5,9 @@ from random import randint
 
 class Enemy(pygame.sprite.Sprite):
 
-    def __init__(self, imagePath, initX, initY, initDX, initDY, sType, controller, imagePath_2):
+    def __init__(self, imagePath, initX, initY, initDX, initDY, sType, controller):
         super().__init__()
-        self.imageList = (pygame.image.load(imagePath), pygame.image.load(imagePath_2))
+        self.imageList = (pygame.image.load(imagePath))
         self.imageIndex = 0
         self.image = self.imageList[self.imageIndex]
         self.rect = self.image.get_rect()
@@ -15,22 +15,19 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.centery = initY
         self.dx = initDX
         self.dy = initDY
-        self.sType = sType
+        self.sType = sType #shoot type
         self.controller = controller
         self.radius = 10
-       
 
     def rightOOB(self):
         #print(self.rect.right > 600 + self.rect.height)
         return self.rect.right > 600 + self.rect.height
-
     def leftOOB(self):
         #print(self.rect.left < -100 - self.rect.height)
         return self.rect.left < -100 - self.rect.height
     def downOOB(self):
         #print(self.rect.bottom > 900 + self.rect.height)
         return self.rect.bottom > 900 + self.rect.height
-
         
     def update(self):
         self.rect.centerx += self.dx
@@ -56,5 +53,3 @@ class Enemy(pygame.sprite.Sprite):
     def draw(self, surface):
         pygame.draw.rect(surface, [255, 000, 000], self.rect, 0)
 
-    def switchIndex(self, index):
-        self.imageIndex = index

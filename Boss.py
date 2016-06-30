@@ -72,4 +72,4 @@ class Boss(pygame.sprite.Sprite):
     
     def draw(self, surface):
         pygame.draw.rect(surface, [255, 000, 000], self.rect, 0)
-    
+

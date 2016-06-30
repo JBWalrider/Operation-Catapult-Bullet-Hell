@@ -17,14 +17,12 @@ class Controller(pygame.sprite.Sprite):
     SCREEN_HEIGHT = None
     SCREEN_SIZE = None
     
-    scroll = None
-    ship = None
-
     spaceGroup = None
     powerUpGroup = None
     shipGroup = None
     bulletGroup = None
     enemyGroup = None
+    bossGroup = None
     
     def __init__(self, w, h):
         super().__init__()
@@ -34,7 +32,6 @@ class Controller(pygame.sprite.Sprite):
         self.SCREEN_HEIGHT = h
         self.SCREEN_SIZE = (self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
         self.diff = 0
-        
         self.screen = pygame.display.set_mode(self.SCREEN_SIZE)
 
         pygame.display.set_caption("Bullet Hell")
@@ -51,8 +48,6 @@ class Controller(pygame.sprite.Sprite):
         self.shipGroup.draw(self.screen)
         self.bulletGroup.draw(self.screen)
         self.enemyGroup.draw(self.screen)
-        
-
 
     def shoot(self, b):
         self.bulletGroup.add(b)
@@ -65,13 +60,11 @@ class Controller(pygame.sprite.Sprite):
         count = 0
         pause = False
         multiplier = 1
-        gCount = 0
-        walrider = False
-        walr = ""
-        sc = 0
-        pygame.mixer.stop()
+        gCount = 0 #easter egg
+        sc = 0 #score
+        pygame.mixer.stop() #stop menu music
         pygame.mixer.music.load("sounds/gameMusic.mp3")
-        pygame.mixer.music.play(-1) 
+        pygame.mixer.music.play(-1) #plat game music
 
         self.scroll = ScrollScreen(self.SCREEN_HEIGHT)
         self.ship = Ship(self.SCREEN_SIZE, self)
@@ -105,9 +98,12 @@ class Controller(pygame.sprite.Sprite):
             self.heartImage = self.heartList[heartNumber]
             scRendered = scoreFont.render(str(sc), True, (150, 150, 255))
             mtRendered = scoreFont.render("X" + str(multiplier), True, (150, 150, 255))
+
             for event in pygame.event.get():
+
                 if event.type == QUIT:
                     return "Quit"
+
                 if event.type == USEREVENT+1:
                     bulletList = self.bulletGroup.sprites()   
                     self.bulletGroup.update()
@@ -123,7 +119,7 @@ class Controller(pygame.sprite.Sprite):
                                         boss.kill()
                                         pygame.time.set_timer(pygame.USEREVENT+6, self.diff)
                                         pygame.time.set_timer(pygame.USEREVENT, 60000)
-    
+
                         for i in range(len(enemyList)):
                             if bulletList[x].team == 0 and pygame.sprite.collide_circle(bulletList[x], enemyList[i]):
                                 enemyDeath.play()
@@ -131,6 +127,7 @@ class Controller(pygame.sprite.Sprite):
                                 multiplier += 1
                                 enemyList[i].kill()
                                 bulletList[x].kill()
+
                         if bulletList[x].team == 1 and pygame.sprite.collide_circle(self.ship, bulletList[x]):
                             bulletList[x].kill()
                             if not self.ship.invincible:
@@ -138,11 +135,12 @@ class Controller(pygame.sprite.Sprite):
                                     shipDeath.play()
                                 else:
                                     shipShieldDeath.play()
-                                self.ship.lives -= 1
+
+                                self.ship.loseLife()
                                 heartNumber -= 1
                                 multiplier = 1
                                 self.ship.giveShield(2, 1)
-                           
+
                             if self.ship.lives <= 0:
                                 pygame.time.set_timer(pygame.USEREVENT+1, 0)                   #Timer for bullet
                                 pygame.time.set_timer(pygame.USEREVENT+2, 0)                  #Timer for background
@@ -157,8 +155,9 @@ class Controller(pygame.sprite.Sprite):
                                     events = pygame.event.get()
                                     # process other events
                                     for event in events:
-                                        # close it x button si pressed
-                                        if event.type == QUIT: return "Exit"
+                                        # close if x button is pressed
+                                        if event.type == QUIT: 
+                                            return "Exit"
 
                                     # clear the screen
                                     self.screen.fill((255,255,255))
@@ -181,11 +180,11 @@ class Controller(pygame.sprite.Sprite):
                                                                 outputFile.write(string)
                                                                 inserted = True
                                                 outputFile.write(line)
-
                                             File.close()
                                             outputFile.close()
                                             os.remove(inputPath)
                                             os.rename(outputPath, inputPath)
+
                                         elif self.diff == 750:
                                             inputPath = "outputs\\Medium.txt"
                                             outputPath = "outputs\\Medium_New.txt"
@@ -201,11 +200,11 @@ class Controller(pygame.sprite.Sprite):
                                                                 outputFile.write(string)
                                                                 inserted = True
                                                 outputFile.write(line)
-
                                             File.close()
                                             outputFile.close()
                                             os.remove(inputPath)
                                             os.rename(outputPath, inputPath)
+
                                         elif self.diff == 500:
                                             inputPath = "outputs\\Hard.txt"
                                             outputPath = "outputs\\Hard_New.txt"
@@ -221,7 +220,6 @@ class Controller(pygame.sprite.Sprite):
                                                                 outputFile.write(string)
                                                                 inserted = True
                                                 outputFile.write(line)
-
                                             File.close()
                                             outputFile.close()
                                             os.remove(inputPath)
@@ -236,8 +234,10 @@ class Controller(pygame.sprite.Sprite):
                             
                 if event.type == USEREVENT+2:
                     self.spaceGroup.update()
+
                 if event.type == USEREVENT+3:
                     self.ship.canShoot = True
+
                 if event.type == USEREVENT+4:
                     powerUp = self.powerUpGroup.sprites()
                     for x in range(len(self.powerUpGroup)):
@@ -249,6 +249,7 @@ class Controller(pygame.sprite.Sprite):
                     self.shipGroup.update()
                     self.enemyGroup.update()
                     self.bossGroup.update()
+
                 if event.type == USEREVENT+5:
                     enemyList = self.enemyGroup.sprites()
                     for i in range(len(enemyList)):
@@ -256,6 +257,7 @@ class Controller(pygame.sprite.Sprite):
                     bossList = self.bossGroup.sprites()
                     for boss in bossList:
                         boss.shoot()
+
                 if event.type == USEREVENT+6:
                     sType = randint(0, 1)
                     path = "images\\Enemy_" + str(sType) + ".png"
@@ -264,12 +266,14 @@ class Controller(pygame.sprite.Sprite):
                     initDY = randint(1, 1)
                     enemy = Enemy(path, initX, 0, initDX, initDY, sType, self, "images\\Enemy_1.png")
                     self.enemyGroup.add(enemy)
+
                 if event.type == USEREVENT+7:
                     xcoord = randint(100, 400)
                     ycoord = randint(100, 450)
                     pType = randint(0, 2)
                     pUp = PowerUp((xcoord, ycoord), pType)
                     self.powerUpGroup.add(pUp)
+
                 if event.type == USEREVENT:
                     boss = Boss(0, self)
                     self.bossGroup.add(boss)
@@ -294,6 +298,7 @@ class Controller(pygame.sprite.Sprite):
                     if event.key == K_r and gCount == 7:
                         sc = 999999999999999
                         gCount = 8
+
                 keys = pygame.key.get_pressed()
                 if keys[K_ESCAPE]:
                     pauseMenu = PauseMenu.Menu(self)
@@ -310,5 +315,6 @@ class Controller(pygame.sprite.Sprite):
             pygame.display.update()
 
             self.repaint()
-            self.screen.blit(scRendered, (500-scRendered.get_rect().right-2, 2))
-            self.screen.blit(mtRendered, (500-mtRendered.get_rect().right-2, 28))
+            self.screen.blit(scRendered, (500-scRendered.get_rect().right-2, 2)) #score
+            self.screen.blit(mtRendered, (500-mtRendered.get_rect().right-2, 28)) #multiplier
+
