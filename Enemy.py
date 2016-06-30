@@ -8,8 +8,7 @@ class Enemy(pygame.sprite.Sprite):
     def __init__(self, imagePath, initX, initY, initDX, initDY, sType, controller):
         super().__init__()
         self.imageList = (pygame.image.load(imagePath))
-        self.imageIndex = 0
-        self.image = self.imageList[self.imageIndex]
+        self.image = self.imageList
         self.rect = self.image.get_rect()
         self.rect.centerx = initX 
         self.rect.centery = initY

@@ -88,7 +88,7 @@ class Controller(pygame.sprite.Sprite):
         pygame.time.set_timer(pygame.USEREVENT+2, 100)                  #Timer for background
         pygame.time.set_timer(pygame.USEREVENT+3, 300)                  #Timer for shooting
         pygame.time.set_timer(pygame.USEREVENT+4, 10)                   #Timer for moving
-        pygame.time.set_timer(pygame.USEREVENT+5, self.diff)            #Timer for Enemy Shooting
+        pygame.time.set_timer(pygame.USEREVENT+5, self.diff)            #Timer for enemy Shooting
         pygame.time.set_timer(pygame.USEREVENT+6, self.diff)            #Timer for enemy spawn
         pygame.time.set_timer(pygame.USEREVENT+7, 20000)                #Timer for Power Up spawn
         pygame.time.set_timer(pygame.USEREVENT, 60000)                 #Timer for boss spawn
@@ -264,7 +264,7 @@ class Controller(pygame.sprite.Sprite):
                     initX = randint(100, 400)
                     initDX = randint(-1, 1)
                     initDY = randint(1, 1)
-                    enemy = Enemy(path, initX, 0, initDX, initDY, sType, self, "images\\Enemy_1.png")
+                    enemy = Enemy(path, initX, 0, initDX, initDY, sType, self)
                     self.enemyGroup.add(enemy)
 
                 if event.type == USEREVENT+7:
@@ -284,7 +284,7 @@ class Controller(pygame.sprite.Sprite):
                     if event.key == K_w and gCount == 0:
                         gCount = 1
                     if event.key == K_a and gCount == 1:
-                        gCount = 2]
+                        gCount = 2
                     if event.key == K_l and gCount == 2:
                         gCount = 3
                     if event.key == K_r and gCount == 3:
